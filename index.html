@@ -1,313 +1,657 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#05070e" />
+  <meta name="color-scheme" content="dark" />
   <meta name="description" content="Cuestionario sobre Calendarización: Temporada Escolar / Temporada Club. Estudio de carga en voleibol juvenil de Puerto Rico." />
   <title>Cuestionario sobre Calendarización</title>
   <link rel="icon" type="image/png" href="data:image/png;base64,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" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://nvsprmqwbnbltvryhcrx.supabase.co" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet" />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace']
-          }
-        }
-      }
-    };
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" defer></script>
 
   <style>
-    html { -webkit-tap-highlight-color: transparent; }
-    body { padding-bottom: max(3rem, env(safe-area-inset-bottom)); }
-
-    .opt {
-      position: relative;
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(30, 41, 59, 0.9);
-      background: rgba(2, 6, 23, 0.55);
-      color: #94a3b8;
-      border-radius: 0.75rem;
-      cursor: pointer;
-      user-select: none;
-      line-height: 1.15;
-      transition: transform .14s cubic-bezier(.2,.8,.2,1), border-color .18s, background .18s, color .18s, box-shadow .22s;
+    :root {
+      --bg: #05070e;
+      --s1: #0a0e18;
+      --s2: #0f1422;
+      --s3: #151b2c;
+      --line: rgba(255,255,255,.08);
+      --line2: rgba(255,255,255,.16);
+      --tx: #f3f5fa;
+      --tx2: #a6aec0;
+      --tx3: #7a839b;
+      --acc: #d4ff3a;
+      --acc-ink: #0b0e04;
+      --acc-soft: rgba(212,255,58,.10);
+      --acc-line: rgba(212,255,58,.55);
+      --err: #ff6b81;
+      --err-soft: rgba(255,107,129,.10);
+      --r-sm: 10px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-t: env(safe-area-inset-top, 0px);
     }
-    .opt:hover { border-color: rgba(71, 85, 105, 0.9); color: #e2e8f0; }
-    .opt:active { transform: scale(0.97); }
-    .opt-block { justify-content: flex-start; text-align: left; }
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden], .hidden { display: none !important; }
+    html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; background: var(--bg); }
+    body {
+      margin: 0; min-height: 100vh; min-height: 100dvh;
+      background: var(--bg); color: var(--tx);
+      font-family: var(--sans); font-size: 15px; line-height: 1.47;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    ::selection { background: var(--acc); color: var(--acc-ink); }
+    a { color: var(--tx2); text-decoration: none; }
+    a:hover { color: var(--tx); }
+    button { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; border-radius: 6px; }
 
-    input.opt-input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
-    input.opt-input:focus-visible + .opt { outline: 2px solid #818cf8; outline-offset: 2px; }
+    /* Escala tipográfica */
+    .t-display { font-size: 34px; line-height: 38px; font-weight: 800; letter-spacing: -0.035em; margin: 0; text-wrap: balance; }
+    .t-title { font-size: 24px; line-height: 30px; font-weight: 800; letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
+    .t-q { font-size: 15px; line-height: 21px; font-weight: 650; font-weight: 600; letter-spacing: -0.005em; color: var(--tx); text-wrap: pretty; }
+    .t-body { font-size: 15px; line-height: 23px; color: var(--tx2); margin: 0; text-wrap: pretty; }
+    .t-label { font-family: var(--mono); font-size: 11px; line-height: 14px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--tx3); }
 
-    .opt .tick {
-      width: 10px; height: 10px; border-radius: 9999px;
-      background: #334155; flex-shrink: 0;
-      transition: background .18s, box-shadow .22s, transform .22s;
+    /* Fondo ambiental */
+    .ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .ambient::before {
+      content: ""; position: absolute; left: 50%; top: -220px; width: 760px; height: 520px; transform: translateX(-50%);
+      background: radial-gradient(closest-side, rgba(212,255,58,.07), transparent 70%);
+    }
+    .floor {
+      position: absolute; left: -50%; right: -50%; bottom: -10%; height: 60%;
+      background-image:
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 56px 56px;
+      transform: perspective(600px) rotateX(64deg);
+      transform-origin: 50% 0;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 60%, transparent);
+              mask-image: linear-gradient(to bottom, transparent, #000 30%, #000 60%, transparent);
     }
 
-    .acc-indigo input:checked + .opt {
-      border-color: #6366f1; color: #fff;
-      background: linear-gradient(135deg, rgba(99,102,241,.22) 0%, rgba(79,70,229,.05) 100%);
-      box-shadow: 0 0 0 1px #6366f1, 0 8px 22px -6px rgba(99,102,241,.45);
-      animation: pop .28s cubic-bezier(.2,.8,.2,1);
+    .shell { position: relative; z-index: 1; max-width: 520px; margin: 0 auto; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+
+    /* Barra superior */
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      padding: calc(12px + var(--safe-t)) 20px 12px;
+      background: linear-gradient(to bottom, rgba(5,7,14,.96) 60%, rgba(5,7,14,.0));
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
     }
-    .acc-indigo input:checked + .opt .tick { background: #818cf8; box-shadow: 0 0 10px #818cf8; transform: scale(1.15); }
+    .topbar-row { display: flex; align-items: center; justify-content: flex-end; height: 32px; }
+    
+    .stepcount { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .06em; color: var(--tx2); font-variant-numeric: tabular-nums; }
+    .stepcount b { color: var(--tx); font-weight: 700; }
+    .segs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 12px; padding: 0 4px; }
+    .seg { height: 6px; background: var(--s3); transform: skewX(-28deg); border-radius: 1px; overflow: hidden; position: relative; }
+    .seg i { position: absolute; inset: 0; width: 0; background: var(--acc); transition: width .45s var(--ease); }
+    .seg.cur { background: #1d2438; }
+    #progressBarTrack { height: 1px; background: transparent; margin-top: 10px; overflow: hidden; }
+    #progressBar { height: 100%; width: 0; background: linear-gradient(90deg, transparent, var(--acc-line)); transition: width .4s var(--ease); }
 
-    .acc-amber input:checked + .opt {
-      border-color: #f59e0b; color: #fff;
-      background: linear-gradient(135deg, rgba(245,158,11,.22) 0%, rgba(217,119,6,.05) 100%);
-      box-shadow: 0 0 0 1px #f59e0b, 0 8px 22px -6px rgba(245,158,11,.45);
-      animation: pop .28s cubic-bezier(.2,.8,.2,1);
-    }
-    .acc-amber input:checked + .opt .tick { background: #fbbf24; box-shadow: 0 0 10px #fbbf24; transform: scale(1.15); }
+    main { flex: 1; padding: 8px 20px 0; }
 
-    .acc-rose input:checked + .opt {
-      border-color: #f43f5e; color: #fff;
-      background: linear-gradient(135deg, rgba(244,63,94,.22) 0%, rgba(225,29,72,.05) 100%);
-      box-shadow: 0 0 0 1px #f43f5e, 0 8px 22px -6px rgba(244,63,94,.45);
-      animation: pop .28s cubic-bezier(.2,.8,.2,1);
-    }
-    .acc-rose input:checked + .opt .tick { background: #fb7185; box-shadow: 0 0 10px #fb7185; transform: scale(1.15); }
-
-    @keyframes pop { 0% { transform: scale(.96); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
-
-    .field {
-      width: 100%;
-      min-height: 48px;
-      background: rgba(2, 6, 23, 0.8);
-      border: 1px solid rgba(30, 41, 59, 0.9);
-      border-radius: 0.75rem;
-      padding: 0.75rem 0.875rem;
-      font-size: 16px;
-      color: #fff;
-      transition: border-color .18s, box-shadow .18s;
-    }
-    .field::placeholder { color: #475569; }
-    .field:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 1px #6366f1; }
-
-    .q.invalid .q-label { color: #fda4af; }
-    .q.invalid .q-err { display: block; }
-    .q.invalid .field { border-color: #f43f5e; }
-    .q-err { display: none; }
-    .q.shake { animation: shake .35s; }
-    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-
-    .spinner {
-      width: 16px; height: 16px; border-radius: 9999px;
-      border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
-      animation: spin .7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .fade-in { animation: fadeIn .28s ease-out; }
+    /* Pantallas */
+    .screen { padding-bottom: 32px; }
+    .enter-fwd { animation: inFwd .42s var(--ease) both; }
+    .enter-back { animation: inBack .42s var(--ease) both; }
+    @keyframes inFwd { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+    @keyframes inBack { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: none; } }
+    .fade-in { animation: fadeIn .32s var(--ease) both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
+    .sec-head { padding: 12px 0 24px; display: grid; gap: 10px; }
+    .sec-head .num { display: flex; align-items: center; gap: 10px; }
+    .sec-head .num::before { content: ""; width: 18px; height: 3px; background: var(--acc); transform: skewX(-28deg); }
+    .sec-head h2:focus { outline: none; }
+    .sec-meta { display: flex; justify-content: space-between; align-items: baseline; }
+
+    /* Preguntas */
+    .q { border: 0; margin: 0 0 28px; padding: 0; min-width: 0; }
+    .q legend, .q > label.q-label { display: block; padding: 0; margin-bottom: 12px; }
+    .q legend.statement { width: 100%; padding: 16px 18px 16px 22px; margin-bottom: 14px; }
+    .q-label .opt-tag { color: var(--tx3); font-weight: 500; }
+    .q-err { display: none; margin: 10px 0 0; font-size: 13px; line-height: 18px; color: var(--err); font-weight: 600; align-items: center; gap: 8px; }
+    .q-err::before { content: ""; width: 10px; height: 10px; flex: none; background: var(--err); clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%); }
+    .q.invalid .q-err { display: flex; }
+    .q.invalid .q-label { color: #ffb3bf; }
+    .q.invalid .field { border-color: var(--err); background: var(--err-soft); }
+    .q.invalid .opt { border-color: rgba(255,107,129,.45); }
+    .q.shake { animation: shake .36s; }
+    @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+    .grid { display: grid; gap: 8px; }
+    .cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .cols-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .cols-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .span-2 { grid-column: span 2; }
+
+    input.opt-input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+    .opt {
+      position: relative; min-height: 56px; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+      padding: 10px 6px; text-align: center;
+      background: var(--s1); border: 1px solid var(--line); border-radius: var(--r-md);
+      color: var(--tx2); cursor: pointer; user-select: none; -webkit-user-select: none;
+      overflow: hidden; isolation: isolate;
+      transition: transform .16s var(--ease), border-color .2s, background .2s, color .2s, box-shadow .25s;
+    }
+    .opt::after {
+      content: ""; position: absolute; top: 0; right: 0; width: 22px; height: 22px;
+      background: var(--acc); clip-path: polygon(100% 0, 100% 100%, 0 0);
+      transform: translate(10px,-10px); opacity: 0; transition: transform .28s var(--ease), opacity .2s;
+    }
+    .opt .main { font-size: 15px; line-height: 19px; font-weight: 700; color: inherit; letter-spacing: -0.01em; }
+    .opt .main.mono { font-family: var(--mono); font-size: 15px; letter-spacing: -0.02em; }
+    .opt .main.big { font-family: var(--mono); font-size: 20px; line-height: 22px; letter-spacing: -0.03em; }
+    .opt .unit { font-size: 12px; line-height: 15px; font-weight: 500; color: var(--tx3); transition: color .2s; }
+    @media (hover: hover) { .opt:hover { border-color: var(--line2); color: var(--tx); background: var(--s2); } }
+    .opt:active { transform: scale(.97); }
+    input.opt-input:focus-visible + .opt { outline: 2px solid var(--acc); outline-offset: 2px; }
+    input.opt-input:checked + .opt {
+      color: var(--tx); border-color: var(--acc-line);
+      background: linear-gradient(160deg, rgba(212,255,58,.14), rgba(212,255,58,.03) 60%), var(--s1);
+      box-shadow: inset 0 0 0 1px var(--acc-line), 0 10px 24px -14px rgba(212,255,58,.55);
+      animation: pop .3s var(--ease);
+    }
+    input.opt-input:checked + .opt::after { opacity: 1; transform: none; }
+    input.opt-input:checked + .opt .unit { color: var(--tx2); }
+    @keyframes pop { 0% { transform: scale(.96); } 60% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+    .opt-row { align-items: flex-start; text-align: left; padding: 14px 40px 14px 16px; gap: 4px; min-height: 64px; }
+    .opt-row .main { font-size: 16px; line-height: 20px; }
+    .opt-row .desc { font-size: 13px; line-height: 19px; font-weight: 500; color: var(--tx3); transition: color .2s; text-wrap: pretty; }
+    input.opt-input:checked + .opt-row .desc { color: var(--tx2); }
+    .cols-1 { grid-template-columns: minmax(0,1fr); }
+    .statement { border-radius: var(--r-md); background: var(--s1); border: 1px solid var(--line); font-size: 16px; line-height: 23px; font-weight: 600; color: var(--tx); text-wrap: pretty; position: relative; }
+    .statement::before { content: ""; position: absolute; left: 0; top: 16px; bottom: 16px; width: 3px; background: var(--acc); }
+    .field {
+      width: 100%; min-height: 52px; display: block;
+      background: var(--s1); border: 1px solid var(--line); border-radius: var(--r-md);
+      padding: 14px 16px; font: 500 16px/22px var(--sans); color: var(--tx);
+      transition: border-color .2s, box-shadow .2s, background .2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .field::placeholder { color: #5d667d; }
+    .field:hover { border-color: var(--line2); }
+    .field:focus { outline: none; border-color: var(--acc-line); box-shadow: 0 0 0 3px rgba(212,255,58,.14); background: var(--s2); }
+    textarea.field { resize: none; min-height: 112px; }
+    .count { margin-top: 8px; text-align: right; font: 500 11px/14px var(--mono); color: var(--tx3); font-variant-numeric: tabular-nums; }
+
+    /* Intro / hero */
+    .hero { padding: 12px 0 24px; display: grid; gap: 28px; }
+    .stage { position: relative; height: 248px; perspective: 900px; display: grid; place-items: center; }
+    .obj { position: relative; width: 250px; height: 138px; transform-style: preserve-3d; transform: rotateX(calc(16deg + var(--py, 0) * -10deg)) rotateY(calc(-26deg + var(--px, 0) * 16deg)); transition: transform .6s var(--ease); }
+    .obj-spin { position: absolute; inset: 0; transform-style: preserve-3d; animation: drift 9s ease-in-out infinite; }
+    @keyframes drift { 0%,100% { transform: rotateY(0) translateZ(0); } 50% { transform: rotateY(14deg) translateZ(12px) translateY(-6px); } }
+    .lg { position: absolute; inset: 0; }
+    .lg.l1 { clip-path: polygon(23.6% 0, 45.3% 0, 21.7% 100%, 0 100%); background: linear-gradient(160deg, #ffffff, #c9cfdc); transform: translateZ(0); }
+    .lg.l2 { clip-path: polygon(52.7% 0, 74.4% 0, 51.2% 100%, 29.5% 100%); background: linear-gradient(160deg, var(--acc), #a6d415); transform: translateZ(26px); }
+    .lg.l3 { clip-path: polygon(72.6% 35.4%, 86.8% 100%, 65.1% 100%, 62% 84%, 65.5% 74%); background: linear-gradient(160deg, #8a93a8, #4a5370); transform: translateZ(52px); }
+    .lg.l4 { inset: auto; left: 81.7%; top: 66.8%; width: 18%; height: 32.6%; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff, #c9cfdc 70%); transform: translateZ(78px); animation: bounce 2.4s ease-in-out infinite; }
+    @keyframes bounce { 0%,100% { transform: translateZ(78px) translateY(0); } 50% { transform: translateZ(78px) translateY(-14px); } }
+    .lg.edge { filter: brightness(.42); }
+    .lg.l1.edge { transform: translateZ(-7px); }
+    .lg.l2.edge { transform: translateZ(19px); }
+    .lg.l3.edge { transform: translateZ(45px); }
+    .shadow { position: absolute; left: 0; right: 0; bottom: -40px; height: 40px; background: radial-gradient(closest-side, rgba(212,255,58,.22), transparent); filter: blur(10px); transform: rotateX(80deg) translateZ(-20px); }
+    .hero-copy { display: grid; gap: 12px; }
+    .facts { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .fact { padding: 14px 0 14px 14px; display: grid; gap: 4px; }
+    .fact + .fact { border-left: 1px solid var(--line); }
+    .fact:first-child { padding-left: 0; }
+    .fact b { font: 700 22px/24px var(--mono); letter-spacing: -0.03em; color: var(--tx); font-variant-numeric: tabular-nums; }
+
+    /* Botones */
+    .btn {
+      min-height: 56px; border-radius: var(--r-md); border: 0; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      font-size: 16px; font-weight: 800; letter-spacing: -0.01em; padding: 0 22px;
+      transition: transform .14s var(--ease), background .2s, box-shadow .25s, opacity .2s;
+    }
+    .btn:active { transform: scale(.98); }
+    .btn-primary { background: var(--acc); color: var(--acc-ink); box-shadow: 0 12px 30px -14px rgba(212,255,58,.7), inset 0 -2px 0 rgba(0,0,0,.12); }
+    @media (hover: hover) { .btn-primary:hover { background: #e0ff6b; } }
+    .btn-primary:disabled { opacity: .7; cursor: not-allowed; }
+    .btn-ghost { background: var(--s2); color: var(--tx); border: 1px solid var(--line); }
+    @media (hover: hover) { .btn-ghost:hover { border-color: var(--line2); } }
+    .btn-icon { width: 56px; padding: 0; flex: none; }
+    .btn .arrow { width: 18px; height: 18px; }
+    .btn-block { width: 100%; }
+
+    .actions {
+      position: sticky; bottom: 0; z-index: 15; margin: 0 -20px;
+      padding: 16px 20px calc(16px + var(--safe-b));
+      background: linear-gradient(to top, rgba(5,7,14,.98) 65%, rgba(5,7,14,0));
+      display: flex; gap: 10px;
+    }
+    .actions .grow { flex: 1; }
+
+    .spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(11,14,4,.25); border-top-color: var(--acc-ink); animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Estado */
+    #statusMsg { margin: 0 0 4px; padding: 14px 16px; border-radius: var(--r-md); font-size: 14px; line-height: 20px; font-weight: 600; display: flex; gap: 10px; align-items: flex-start; }
+    .status-err { background: var(--err-soft); border: 1px solid rgba(255,107,129,.4); color: #ffc2cc; }
+    .status-warn { background: rgba(255,196,70,.08); border: 1px solid rgba(255,196,70,.35); color: #ffe0a3; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    /* Modelos A / B */
+    .models { display: grid; gap: 12px; perspective: 1000px; }
+    .opt-model {
+      align-items: stretch; justify-content: flex-start; text-align: left; padding: 18px; gap: 14px;
+      border-radius: var(--r-lg);
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transition: transform .2s var(--ease), border-color .2s, background .2s, color .2s, box-shadow .25s;
+    }
+    .opt-model::after { width: 30px; height: 30px; }
+    .m-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .m-name { font-size: 17px; line-height: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--tx); }
+    .m-letter { font: 700 11px/14px var(--mono); letter-spacing: .12em; color: var(--tx3); display: block; margin-bottom: 4px; }
+    .badge { flex: none; font: 700 10px/14px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line2); color: var(--tx2); white-space: nowrap; margin-right: 14px; }
+    .badge.acc { border-color: var(--acc-line); color: var(--acc); }
+    .m-desc { font-size: 14px; line-height: 21px; color: var(--tx2); font-weight: 500; text-wrap: pretty; }
+    input.opt-input:checked + .opt-model { animation: none; }
+
+    .mchart { display: grid; gap: 8px; padding: 14px 12px 10px; border-radius: var(--r-md); background: rgba(0,0,0,.28); border: 1px solid var(--line); }
+    .mchart-bars { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; height: 64px; align-items: end; }
+    .mchart-band { position: absolute; left: 0; bottom: 0; top: 0; width: calc(75% - 2px); border-radius: 6px; background: repeating-linear-gradient(-45deg, rgba(255,255,255,.035) 0 6px, transparent 6px 12px); border: 1px dashed rgba(255,255,255,.12); }
+    .mbar { position: relative; height: var(--h); min-height: 3px; border-radius: 4px 4px 1px 1px; background: #3a4360; transform-origin: bottom; transition: background .25s, height .5s var(--ease); }
+    .mbar.t { height: 18px; background: transparent; border: 1px solid var(--line2); }
+    .mbar.t::before { content: "T"; position: absolute; inset: 0; display: grid; place-items: center; font: 700 10px/1 var(--mono); color: var(--tx2); }
+    input.opt-input:checked + .opt-model .mbar:not(.t) { background: var(--acc); }
+    .mchart-x { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font: 500 10px/12px var(--mono); letter-spacing: .08em; color: var(--tx3); text-transform: uppercase; text-align: center; }
+    .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; line-height: 16px; color: var(--tx3); margin-top: 12px; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { width: 12px; height: 8px; border-radius: 2px; display: inline-block; }
+
+    /* Revisión */
+    .card { background: var(--s1); border: 1px solid var(--line); border-radius: var(--r-lg); }
+    .load { padding: 20px 18px 16px; margin-bottom: 16px; }
+    .load-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+    .load-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+    .iso { display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; height: 190px; padding: 26px 8px 0; border-bottom: 1px solid var(--line); position: relative;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px); background-size: 100% 33.33%; background-position: 0 26px; }
+    .iso-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+    .iso-val { font: 700 14px/18px var(--mono); color: var(--tx); margin-bottom: 20px; letter-spacing: -0.02em; transition: opacity .3s; white-space: nowrap; }
+    .iso-val.empty { color: var(--tx3); }
+    .bar3d { --d: 14px; position: relative; width: 40px; height: var(--h, 4px); margin-right: var(--d); transition: height .6s var(--ease); background: linear-gradient(180deg, #e7ff8a, var(--acc) 30%, #b5e01f); }
+    .bar3d::before { content: ""; position: absolute; left: 0; bottom: 100%; width: 100%; height: var(--d); background: #f1ffc2; transform-origin: bottom left; transform: skewX(-45deg); }
+    .bar3d::after { content: ""; position: absolute; left: 100%; bottom: 0; width: var(--d); height: 100%; background: #86a70f; transform-origin: top left; transform: skewY(-45deg); }
+    .bar3d.b2 { background: linear-gradient(180deg, #ffffff, #dfe3ec 30%, #c1c7d6); }
+    .bar3d.b2::before { background: #ffffff; } .bar3d.b2::after { background: #8a92a6; }
+    .bar3d.b3 { background: linear-gradient(180deg, #ff9aa9, var(--err) 40%, #e04f66); }
+    .bar3d.b3::before { background: #ffc2cc; } .bar3d.b3::after { background: #a5374a; }
+    .bar3d.empty { background: transparent; outline: 1px dashed var(--line2); }
+    .bar3d.empty::before, .bar3d.empty::after { display: none; }
+    .iso-x { display: grid; grid-template-columns: repeat(3, 1fr); padding: 10px 8px 0; text-align: center; gap: 8px; }
+    .iso-x span { font-size: 12px; line-height: 16px; color: var(--tx2); font-weight: 600; }
+    .iso-x small { display: block; font: 500 10px/14px var(--mono); color: var(--tx3); letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
+
+    .review { overflow: hidden; }
+    .rv-sec { padding: 16px 18px; display: grid; gap: 10px; }
+    .rv-sec + .rv-sec { border-top: 1px solid var(--line); }
+    .rv-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .rv-edit { min-height: 44px; min-width: 44px; padding: 0 12px; margin: -10px -12px -10px 0; background: none; border: 0; color: var(--acc); font-weight: 700; font-size: 14px; cursor: pointer; border-radius: 10px; }
+    .rv-row { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; line-height: 20px; }
+    .rv-row dt { color: var(--tx3); flex: 1; min-width: 0; }
+    .rv-row dd { margin: 0; color: var(--tx); font-weight: 600; text-align: right; max-width: 58%; overflow-wrap: anywhere; }
+    .rv-row dd.missing { color: var(--err); }
+    #progressText { margin: 0 0 12px; text-align: center; }
+
+    /* Confirmación */
+    #thanksPanel { padding: 24px 0 40px; text-align: center; display: grid; gap: 16px; justify-items: center; }
+    .badge3d { position: relative; width: 132px; height: 132px; perspective: 600px; margin: 20px 0 12px; }
+    .badge3d-in { position: absolute; inset: 0; transform-style: preserve-3d; animation: badgeIn .9s var(--ease) both; }
+    .badge3d .face { position: absolute; inset: 14px; background: var(--acc); clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%); display: grid; place-items: center; transform: translateZ(10px); }
+    .badge3d .back { position: absolute; inset: 14px; background: #6f8a0c; clip-path: polygon(30% 0, 100% 0, 70% 100%, 0 100%); transform: translateZ(-6px) translate(6px, 6px); }
+    .badge3d svg { width: 44px; height: 44px; color: var(--acc-ink); }
+    .badge3d svg path { stroke-dasharray: 30; stroke-dashoffset: 30; animation: draw .5s .55s var(--ease) forwards; }
+    @keyframes badgeIn { from { transform: rotateY(-90deg) rotateX(20deg) scale(.6); opacity: 0; } to { transform: rotateY(-14deg) rotateX(8deg); opacity: 1; } }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    .streak { position: absolute; left: 50%; top: 50%; width: 4px; height: 26px; background: var(--acc); border-radius: 2px; opacity: 0; transform-origin: 50% 0; animation: streak .8s .35s var(--ease) forwards; }
+    @keyframes streak { 0% { opacity: 0; transform: rotate(var(--a)) translateY(30px) scaleY(.2); } 40% { opacity: 1; } 100% { opacity: 0; transform: rotate(var(--a)) translateY(86px) scaleY(1); } }
+    #thanksPanel .t-body { max-width: 300px; }
+
+    footer { position: relative; z-index: 1; max-width: 520px; width: 100%; margin: 0 auto; padding: 20px 20px calc(24px + var(--safe-b)); display: flex; align-items: center; justify-content: space-between; font: 500 11px/14px var(--mono); color: var(--tx3); letter-spacing: .04em; }
+    footer a { color: var(--tx3); padding: 14px 0 14px 14px; margin: -14px 0; }
+    footer a:hover { color: var(--tx2); }
+    body.in-form footer { display: none; }
+
+    @media (min-width: 400px) { .t-display { font-size: 38px; line-height: 42px; } }
+    @media (min-width: 720px) {
+      .shell { margin-top: 32px; min-height: auto; }
+      .topbar { border-radius: 24px 24px 0 0; }
+      .t-display { font-size: 44px; line-height: 48px; }
+      .stage { height: 280px; }
+    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
+      .badge3d svg path { stroke-dashoffset: 0; }
+      .badge3d-in { transform: rotateY(-14deg) rotateX(8deg); }
+      .streak { display: none; }
     }
   </style>
 </head>
-<body class="bg-[#05070e] text-slate-100 font-sans antialiased min-h-screen selection:bg-indigo-500 selection:text-white">
+<body>
+  <div class="ambient" aria-hidden="true"><div class="floor"></div></div>
 
-  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-64 bg-indigo-600/15 blur-[120px] pointer-events-none -z-10" aria-hidden="true"></div>
-
-  <div class="fixed top-0 left-0 right-0 h-1 bg-slate-900/80 z-30" aria-hidden="true">
-    <div id="progressBar" class="h-full w-0 bg-gradient-to-r from-indigo-500 to-indigo-400 transition-all duration-300"></div>
-  </div>
-
-  <div class="max-w-xl mx-auto px-4 pt-6 sm:pt-10 space-y-6">
-
-    <header class="border-b border-slate-800/80 pb-5 space-y-4">
-      <img src="data:image/png;base64,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" alt="MOVE" width="64" height="36" class="h-8 w-auto opacity-95" />
-      <div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">Cuestionario sobre Calendarización</h1>
-        <p class="text-sm text-slate-400 mt-1">Temporada Escolar / Temporada Club</p>
+  <div class="shell">
+    <header class="topbar">
+      <div class="topbar-row">
+        
+        <span class="stepcount" id="stepCount" aria-hidden="true"></span>
+      </div>
+      <div id="segWrap" hidden>
+        <div class="segs" aria-hidden="true">
+          <div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div>
+        </div>
+        <div id="progressBarTrack" aria-hidden="true"><div id="progressBar"></div></div>
       </div>
     </header>
 
-    <main id="surveyContainer" class="space-y-6 fade-in">
-      <form id="evaluationForm" novalidate autocomplete="off" class="space-y-5">
+    <p id="stepAnnounce" class="sr-only" aria-live="polite"></p>
+
+    <main id="surveyContainer">
+
+      <!-- Intro -->
+      <section id="intro" class="screen fade-in" aria-labelledby="introTitle">
+        <div class="hero">
+          <div class="stage" role="img" aria-label="MOVE">
+            <div class="obj" id="heroObj">
+              <div class="obj-spin">
+                <div class="shadow"></div>
+                <div class="lg l1 edge"></div><div class="lg l1"></div>
+                <div class="lg l2 edge"></div><div class="lg l2"></div>
+                <div class="lg l3 edge"></div><div class="lg l3"></div>
+                <div class="lg l4"></div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-copy">
+            <span class="t-label">MOVE · Estudio de calendarización</span>
+            <h1 id="introTitle" class="t-display">Cuestionario sobre Calendarización</h1>
+            <p class="t-body" style="color:var(--tx);font-weight:600">Temporada Escolar / Temporada Club</p>
+            <p class="t-body">Medimos el cruce de carga entre la temporada escolar y la de club para decidir el calendario de la próxima temporada. Toma menos de 2 minutos.</p>
+          </div>
+          <div class="facts">
+            <div class="fact"><b>06</b><span class="t-label">Secciones</span></div>
+            <div class="fact"><b>14</b><span class="t-label">Requeridas</span></div>
+            <div class="fact"><b>2&#8239;min</b><span class="t-label">Duración</span></div>
+          </div>
+          <button type="button" id="btnStart" class="btn btn-primary btn-block">
+            Comenzar
+            <svg class="arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <form id="evaluationForm" novalidate autocomplete="off" hidden>
 
         <!-- 01 PERFIL -->
-        <section class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-md space-y-5">
-          <div class="flex items-center justify-between border-b border-slate-800/60 pb-3">
-            <div class="flex items-center gap-2">
-              <span class="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-mono font-bold flex items-center justify-center">01</span>
-              <h2 class="text-xs font-bold text-white tracking-wider uppercase">Perfil del Atleta</h2>
-            </div>
-            <span class="text-[11px] text-slate-500 font-medium">* Requerido</span>
+        <section class="screen" data-step="1" hidden aria-labelledby="h1s">
+          <div class="sec-head">
+            <div class="sec-meta"><span class="t-label num">Sección 01</span><span class="t-label">* Requerido</span></div>
+            <h2 id="h1s" class="t-title" tabindex="-1">Perfil del Atleta</h2>
           </div>
 
-          <div class="q space-y-1.5">
-            <label for="athleteName" class="q-label block text-sm text-slate-300 font-semibold">Nombre completo <span class="text-slate-500 font-normal">(Opcional)</span></label>
-            <input type="text" id="athleteName" maxlength="80" placeholder="Tu nombre" class="field" />
+          <div class="q">
+            <label for="athleteName" class="q-label t-q">Nombre completo <span class="opt-tag">(Opcional)</span></label>
+            <input type="text" id="athleteName" maxlength="80" placeholder="Tu nombre" class="field" autocomplete="off" enterkeyhint="next" />
           </div>
 
           <fieldset class="q" data-q="category">
-            <legend class="q-label block text-sm text-slate-300 font-semibold mb-2">Categoría de edad *</legend>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 acc-indigo" id="grp-category"></div>
-            <p class="q-err text-xs text-rose-400 mt-2">Selecciona tu categoría.</p>
+            <legend class="q-label t-q">Categoría de edad *</legend>
+            <div class="grid cols-2" id="grp-category"></div>
+            <p class="q-err">Selecciona tu categoría.</p>
           </fieldset>
 
-          <div class="q space-y-1.5" data-q="schoolName">
-            <label for="schoolName" class="q-label block text-sm text-slate-300 font-semibold">Escuela o colegio *</label>
-            <input type="text" id="schoolName" maxlength="120" placeholder="Nombre de tu institución escolar" class="field" />
-            <p class="q-err text-xs text-rose-400">Escribe el nombre de tu escuela o colegio.</p>
+          <div class="q" data-q="schoolName">
+            <label for="schoolName" class="q-label t-q">Escuela o colegio *</label>
+            <input type="text" id="schoolName" maxlength="120" placeholder="Nombre de tu institución escolar" class="field" enterkeyhint="next" />
+            <p class="q-err">Escribe el nombre de tu escuela o colegio.</p>
           </div>
         </section>
 
         <!-- 02 CALENDARIO ESCOLAR -->
-        <section class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-md space-y-5">
-          <div class="flex items-center gap-2 border-b border-slate-800/60 pb-3">
-            <span class="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-mono font-bold flex items-center justify-center">02</span>
-            <h2 class="text-xs font-bold text-white tracking-wider uppercase">Calendario Escolar Regular (Ago - Oct)</h2>
+        <section class="screen" data-step="2" hidden aria-labelledby="h2s">
+          <div class="sec-head">
+            <span class="t-label num">Sección 02</span>
+            <h2 id="h2s" class="t-title" tabindex="-1">Calendario Escolar Regular (Ago - Oct)</h2>
           </div>
 
           <fieldset class="q" data-q="school_practice">
-            <legend class="q-label block text-sm text-slate-300 font-semibold mb-2">Prácticas escolares a la semana *</legend>
-            <div class="grid grid-cols-3 gap-2 acc-amber" id="grp-school_practice"></div>
-            <p class="q-err text-xs text-rose-400 mt-2">Selecciona una opción.</p>
+            <legend class="q-label t-q">Prácticas escolares a la semana *</legend>
+            <div class="grid cols-3" id="grp-school_practice"></div>
+            <p class="q-err">Selecciona una opción.</p>
           </fieldset>
 
           <fieldset class="q" data-q="school_games">
-            <legend class="q-label block text-sm text-slate-300 font-semibold mb-2">Partidos escolares entre semana (Lun - Jue) *</legend>
-            <div class="grid grid-cols-4 gap-2 acc-amber" id="grp-school_games"></div>
-            <p class="q-err text-xs text-rose-400 mt-2">Selecciona una opción.</p>
+            <legend class="q-label t-q">Partidos escolares entre semana (Lun - Jue) *</legend>
+            <div class="grid cols-4" id="grp-school_games"></div>
+            <p class="q-err">Selecciona una opción.</p>
           </fieldset>
 
           <fieldset class="q" data-q="school_tournaments">
-            <legend class="q-label block text-sm text-slate-300 font-semibold mb-2">Fines de semana al mes con torneos o copas escolares *</legend>
-            <div class="grid grid-cols-4 gap-2 acc-amber" id="grp-school_tournaments"></div>
-            <p class="q-err text-xs text-rose-400 mt-2">Selecciona una opción.</p>
+            <legend class="q-label t-q">Fines de semana al mes con torneos o copas escolares *</legend>
+            <div class="grid cols-4" id="grp-school_tournaments"></div>
+            <p class="q-err">Selecciona una opción.</p>
+          </fieldset>
+
+          <fieldset class="q" data-q="school_intensity">
+            <legend class="q-label t-q">Intensidad o nivel de entrenamientos y competencias en la escuela *</legend>
+            <div class="grid cols-1" id="grp-school_intensity"></div>
+            <p class="q-err">Selecciona una opción.</p>
           </fieldset>
         </section>
 
         <!-- 03 CALENDARIO DE CLUB -->
-        <section class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-md space-y-5">
-          <div class="flex items-center gap-2 border-b border-slate-800/60 pb-3">
-            <span class="w-7 h-7 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-mono font-bold flex items-center justify-center">03</span>
-            <h2 class="text-xs font-bold text-white tracking-wider uppercase">Calendario de Club (Sept - Oct)</h2>
+        <section class="screen" data-step="3" hidden aria-labelledby="h3s">
+          <div class="sec-head">
+            <span class="t-label num">Sección 03</span>
+            <h2 id="h3s" class="t-title" tabindex="-1">Calendario de Club (Sept - Oct)</h2>
           </div>
 
-          <div class="q space-y-1.5" data-q="clubName">
-            <label for="clubName" class="q-label block text-sm text-slate-300 font-semibold">¿En cuál club juegas? *</label>
-            <input type="text" id="clubName" maxlength="120" placeholder="Nombre del club de voleibol" class="field" />
-            <p class="q-err text-xs text-rose-400">Escribe el nombre de tu club.</p>
+          <div class="q" data-q="clubName">
+            <label for="clubName" class="q-label t-q">¿En cuál club juegas? *</label>
+            <input type="text" id="clubName" maxlength="120" placeholder="Nombre del club de voleibol" class="field" enterkeyhint="next" />
+            <p class="q-err">Escribe el nombre de tu club.</p>
           </div>
 
           <fieldset class="q" data-q="division">
-            <legend class="q-label block text-sm text-slate-300 font-semibold mb-2">División de juego en club *</legend>
-            <div class="grid grid-cols-3 gap-2 acc-rose" id="grp-division"></div>
-            <p class="q-err text-xs text-rose-400 mt-2">Selecciona tu división.</p>
+            <legend class="q-label t-q">División de juego en club *</legend>
+            <div class="grid cols-3" id="grp-division"></div>
+            <p class="q-err">Selecciona tu división.</p>
           </fieldset>
 
           <fieldset class="q" data-q="club_days">
-            <legend class="q-label block text-sm text-slate-300 font-semibold mb-2">Días de práctica de club a la semana en sep - oct *</legend>
-            <div class="grid grid-cols-5 gap-2 acc-rose" id="grp-club_days"></div>
-            <p class="q-err text-xs text-rose-400 mt-2">Selecciona una opción.</p>
+            <legend class="q-label t-q">Días de práctica de club a la semana en sep - oct *</legend>
+            <div class="grid cols-3" id="grp-club_days"></div>
+            <p class="q-err">Selecciona una opción.</p>
           </fieldset>
 
           <fieldset class="q" data-q="overlap_freq">
-            <legend class="q-label block text-sm text-slate-300 font-semibold mb-2">Doble práctica (escuela + club el mismo día), veces por semana *</legend>
-            <div class="grid grid-cols-4 gap-2 acc-rose" id="grp-overlap_freq"></div>
-            <p class="q-err text-xs text-rose-400 mt-2">Selecciona una opción.</p>
+            <legend class="q-label t-q">Doble práctica (escuela + club el mismo día), veces por semana *</legend>
+            <div class="grid cols-4" id="grp-overlap_freq"></div>
+            <p class="q-err">Selecciona una opción.</p>
+          </fieldset>
+
+          <fieldset class="q" data-q="club_intensity">
+            <legend class="q-label t-q">Intensidad o nivel de entrenamientos y competencias en el club *</legend>
+            <div class="grid cols-1" id="grp-club_intensity"></div>
+            <p class="q-err">Selecciona una opción.</p>
           </fieldset>
         </section>
 
-        <!-- 04 PROPUESTA DE CALENDARIO -->
-        <section class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-md space-y-4">
-          <div class="flex items-center gap-2 border-b border-slate-800/60 pb-3">
-            <span class="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-mono font-bold flex items-center justify-center">04</span>
-            <h2 class="text-xs font-bold text-white tracking-wider uppercase">Propuesta de Calendario</h2>
+        <!-- 04 PERCEPCION DE CARGA -->
+        <section class="screen" data-step="4" hidden aria-labelledby="h4s">
+          <div class="sec-head">
+            <span class="t-label num">Sección 04</span>
+            <h2 id="h4s" class="t-title" tabindex="-1">Percepción de Carga</h2>
+            <p class="t-body">Indica qué tan de acuerdo estás con cada afirmación.</p>
+          </div>
+
+          <fieldset class="q" data-q="can_handle_load">
+            <legend class="q-label statement">Creo que puedo con la carga de escuelas y clubes en los meses de septiembre y octubre. *</legend>
+            <div class="grid cols-3" id="grp-can_handle_load"></div>
+            <p class="q-err">Selecciona una opción.</p>
+          </fieldset>
+
+          <fieldset class="q" data-q="wants_club_break">
+            <legend class="q-label statement">Me gustaría tener un receso del voleibol de clubes en los 2 meses de septiembre y octubre. *</legend>
+            <div class="grid cols-3" id="grp-wants_club_break"></div>
+            <p class="q-err">Selecciona una opción.</p>
+          </fieldset>
+        </section>
+
+        <!-- 05 PROPUESTA DE CALENDARIO -->
+        <section class="screen" data-step="5" hidden aria-labelledby="h5s">
+          <div class="sec-head">
+            <span class="t-label num">Sección 05</span>
+            <h2 id="h5s" class="t-title" tabindex="-1">Propuesta de Calendario</h2>
           </div>
 
           <fieldset class="q" data-q="calendar_vote">
-            <legend class="q-label block text-sm text-slate-300 font-semibold mb-3">Escoge uno *</legend>
-            <div class="space-y-3 acc-indigo">
+            <legend class="q-label t-q">Escoge uno *</legend>
+            <div class="models">
               <div>
                 <input type="radio" name="calendar_vote" id="calNov" value="modelo_noviembre" class="opt-input" />
-                <label for="calNov" class="opt opt-block flex-col items-stretch p-4 gap-1.5">
-                  <span class="flex items-center justify-between gap-2">
-                    <span class="flex items-center gap-2.5"><span class="tick"></span><span class="font-bold text-sm text-white">Opción A: Modelo Noviembre</span></span>
-                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 whitespace-nowrap">Reestructuración</span>
+                <label for="calNov" class="opt opt-model">
+                  <span class="m-top">
+                    <span><span class="m-letter">OPCIÓN A</span><span class="m-name">Opción A: Modelo Noviembre</span></span>
+                    <span class="badge acc">Reestructuración</span>
                   </span>
-                  <span class="text-xs text-slate-400 leading-relaxed pl-[1.15rem]">Tryouts en agosto. Septiembre y octubre dedicados 100% a la escuela (sin prácticas obligatorias de club o solo fundamentos 1 vez por semana). Las prácticas tácticas de club inician en noviembre al terminar las copas escolares.</span>
+                  <span class="m-desc">Tryouts en agosto. Septiembre y octubre dedicados 100% a la escuela (sin prácticas obligatorias de club o solo fundamentos 1 vez por semana). Las prácticas tácticas de club inician en noviembre al terminar las copas escolares.</span>
+                  <span class="mchart" aria-hidden="true">
+                    <span class="mchart-bars">
+                      <span class="mchart-band"></span>
+                      <span class="mbar t"></span>
+                      <span class="mbar" style="--h:10px"></span>
+                      <span class="mbar" style="--h:10px"></span>
+                      <span class="mbar" style="--h:58px"></span>
+                    </span>
+                    <span class="mchart-x"><span>Ago</span><span>Sep</span><span>Oct</span><span>Nov</span></span>
+                  </span>
                 </label>
               </div>
               <div>
                 <input type="radio" name="calendar_vote" id="calTrad" value="modelo_tradicional" class="opt-input" />
-                <label for="calTrad" class="opt opt-block flex-col items-stretch p-4 gap-1.5">
-                  <span class="flex items-center justify-between gap-2">
-                    <span class="flex items-center gap-2.5"><span class="tick"></span><span class="font-bold text-sm text-white">Opción B: Modelo Tradicional</span></span>
-                    <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400 whitespace-nowrap">Esquema Actual</span>
+                <label for="calTrad" class="opt opt-model">
+                  <span class="m-top">
+                    <span><span class="m-letter">OPCIÓN B</span><span class="m-name">Opción B: Modelo Tradicional</span></span>
+                    <span class="badge">Esquema Actual</span>
                   </span>
-                  <span class="text-xs text-slate-400 leading-relaxed pl-[1.15rem]">Prácticas regulares de equipo de club activas desde septiembre (2 a 3 días por semana), simultáneas con prácticas y torneo escolares.</span>
+                  <span class="m-desc">Prácticas regulares de equipo de club activas desde septiembre (2 a 3 días por semana), simultáneas con prácticas y torneo escolares.</span>
+                  <span class="mchart" aria-hidden="true">
+                    <span class="mchart-bars">
+                      <span class="mchart-band"></span>
+                      <span class="mbar t"></span>
+                      <span class="mbar" style="--h:46px"></span>
+                      <span class="mbar" style="--h:46px"></span>
+                      <span class="mbar" style="--h:46px"></span>
+                    </span>
+                    <span class="mchart-x"><span>Ago</span><span>Sep</span><span>Oct</span><span>Nov</span></span>
+                  </span>
                 </label>
               </div>
             </div>
-            <p class="q-err text-xs text-rose-400 mt-2">Escoge un modelo de calendario.</p>
+            <div class="legend" aria-hidden="true">
+              <span><i style="background:#3a4360"></i>Carga de club</span>
+              <span><i style="background:repeating-linear-gradient(-45deg,rgba(255,255,255,.18) 0 2px,transparent 2px 4px);border:1px dashed rgba(255,255,255,.25)"></i>Temporada escolar</span>
+              <span><i style="border:1px solid rgba(255,255,255,.3)"></i>Tryouts</span>
+            </div>
+            <p class="q-err">Escoge un modelo de calendario.</p>
           </fieldset>
         </section>
 
-        <!-- 05 COMENTARIOS -->
-        <section class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 backdrop-blur-md space-y-4">
-          <div class="flex items-center gap-2 border-b border-slate-800/60 pb-3">
-            <span class="w-7 h-7 rounded-lg bg-slate-500/10 text-slate-400 border border-slate-500/20 text-xs font-mono font-bold flex items-center justify-center">05</span>
-            <h2 class="text-xs font-bold text-white tracking-wider uppercase">Comentarios</h2>
+        <!-- 06 COMENTARIOS + REVISION -->
+        <section class="screen" data-step="6" hidden aria-labelledby="h6s">
+          <div class="sec-head">
+            <span class="t-label num">Sección 06</span>
+            <h2 id="h6s" class="t-title" tabindex="-1">Comentarios</h2>
           </div>
-          <div class="q space-y-1.5">
-            <label for="comments" class="q-label block text-sm text-slate-300 font-semibold">Comentarios u observaciones <span class="text-slate-500 font-normal">(Opcional)</span></label>
-            <textarea id="comments" rows="3" maxlength="600" placeholder="Tu opinión sobre las cargas o las fechas" class="field resize-none"></textarea>
-            <p class="text-[11px] text-slate-500 text-right font-mono"><span id="commentsCount">0</span>/600</p>
+          <div class="q">
+            <label for="comments" class="q-label t-q">Comentarios u observaciones <span class="opt-tag">(Opcional)</span></label>
+            <textarea id="comments" rows="3" maxlength="600" placeholder="Tu opinión sobre las cargas o las fechas" class="field"></textarea>
+            <p class="count"><span id="commentsCount">0</span>/600</p>
           </div>
+
+          <div class="card load" aria-labelledby="loadTitle">
+            <div class="load-head">
+              <span id="loadTitle" class="load-title">Tu semana en sep - oct</span>
+              <span class="t-label">Por semana</span>
+            </div>
+            <div class="iso" role="img" id="isoChart" aria-label="">
+              <div class="iso-col"><span class="iso-val" id="isoV1"></span><div class="bar3d" id="isoB1"></div></div>
+              <div class="iso-col"><span class="iso-val" id="isoV2"></span><div class="bar3d b2" id="isoB2"></div></div>
+              <div class="iso-col"><span class="iso-val" id="isoV3"></span><div class="bar3d b3" id="isoB3"></div></div>
+            </div>
+            <div class="iso-x" aria-hidden="true">
+              <span>Escuela<small>prácticas</small></span>
+              <span>Club<small>prácticas</small></span>
+              <span>Doble<small>mismo día</small></span>
+            </div>
+          </div>
+
+          <div class="sec-meta" style="margin:28px 0 12px"><span class="t-label num">Revisión</span></div>
+          <div class="card review" id="reviewList"></div>
         </section>
 
-        <div class="space-y-3">
-          <p id="progressText" class="text-[11px] text-slate-500 font-mono text-center">0 de 10 preguntas requeridas</p>
-          <button id="btnSubmit" type="submit" class="w-full min-h-[56px] px-6 rounded-xl font-extrabold text-sm tracking-wide bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white shadow-lg shadow-indigo-600/30 transition-all flex items-center justify-center gap-2.5 active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed">
+        <div id="statusMsg" role="status" aria-live="polite" class="hidden"></div>
+
+        <div class="actions">
+          <button type="button" id="btnBack" class="btn btn-ghost btn-icon" aria-label="Atrás">
+            <svg class="arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 10H4M9 5l-5 5 5 5"/></svg>
+          </button>
+          <button type="button" id="btnNext" class="btn btn-primary grow">
+            Siguiente
+            <svg class="arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
+          </button>
+          <button id="btnSubmit" type="submit" class="btn btn-primary grow" hidden>
             <span id="btnSpinner" class="spinner hidden" aria-hidden="true"></span>
             <span id="btnLabel">Registrar evaluación</span>
           </button>
-          <div id="statusMsg" role="status" aria-live="polite" class="hidden text-sm p-4 rounded-xl text-center font-medium"></div>
         </div>
+        <p id="progressText" class="t-label sr-only">0 de 10 preguntas requeridas</p>
       </form>
 
       <!-- Confirmacion -->
-      <section id="thanksPanel" class="hidden bg-slate-900/80 border border-emerald-500/30 rounded-2xl p-6 text-center space-y-3">
-        <div class="mx-auto w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center">
-          <svg viewBox="0 0 24 24" class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+      <section id="thanksPanel" class="hidden" aria-labelledby="thanksTitle">
+        <div class="badge3d" aria-hidden="true">
+          <span class="streak" style="--a:20deg"></span><span class="streak" style="--a:80deg"></span><span class="streak" style="--a:140deg"></span>
+          <span class="streak" style="--a:200deg"></span><span class="streak" style="--a:260deg"></span><span class="streak" style="--a:320deg"></span>
+          <div class="badge3d-in">
+            <div class="back"></div>
+            <div class="face"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          </div>
         </div>
-        <h2 class="text-lg font-extrabold text-white">Evaluación registrada</h2>
-        <p class="text-sm text-slate-400">Gracias por participar. Tu respuesta fue guardada.</p>
-        <button id="btnAnother" type="button" class="min-h-[48px] px-5 rounded-xl text-sm font-bold border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 transition">Registrar otra respuesta</button>
+        <span class="t-label">Respuesta recibida</span>
+        <h2 id="thanksTitle" class="t-title" tabindex="-1">Evaluación registrada</h2>
+        <p class="t-body">Gracias por participar. Tu respuesta fue guardada.</p>
+        <button id="btnAnother" type="button" class="btn btn-ghost" style="margin-top:12px">Registrar otra respuesta</button>
       </section>
     </main>
-
-    <footer class="pt-6 flex items-center justify-between text-[11px] text-slate-600 font-mono">
-      <span>MOVE · Estudio de calendarización</span>
-      <a href="resultados.html" class="text-slate-600 hover:text-slate-400 transition">Resultados</a>
-    </footer>
   </div>
 
+  <footer>
+    <span>MOVE · Estudio de calendarización</span>
+    <a href="resultados.html">Resultados</a>
+  </footer>
+
   <script>
-    (function () {
+    window.addEventListener('DOMContentLoaded', function () {
       'use strict';
 
       const SUPABASE_URL = 'https://nvsprmqwbnbltvryhcrx.supabase.co';
@@ -340,6 +684,18 @@
         overlap_freq: [
           ['0 veces/sem', '0'], ['1 vez/sem', '1'], ['2 veces/sem', '2'], ['3+ veces/sem', '3 o más']
         ],
+        school_intensity: [
+          ['Alta', 'Alta'], ['Moderada', 'Moderada'], ['Baja', 'Baja']
+        ],
+        club_intensity: [
+          ['Alta', 'Alta'], ['Moderada', 'Moderada'], ['Baja', 'Baja']
+        ],
+        can_handle_load: [
+          ['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']
+        ],
+        wants_club_break: [
+          ['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']
+        ],
         calendar_vote: [['modelo_noviembre'], ['modelo_tradicional']]
       };
 
@@ -348,6 +704,20 @@
       const REQUIRED_TEXT = ['schoolName', 'clubName'];
       const REQUIRED_TOTAL = REQUIRED_RADIOS.length + REQUIRED_TEXT.length;
 
+      /* Presentación visual de etiquetas (no altera los values) */
+      const UNITS = {
+        school_games: ['partidos', 'partido', 'partidos', 'partidos'],
+        club_days: ['días', 'día', 'días', 'días', 'días'],
+        overlap_freq: ['veces', 'vez', 'veces', 'veces']
+      };
+      const SPAN2 = { club_days_4: true };
+      const INTENSITY_DESC = [
+        'Se requiere esfuerzo máximo por el nivel competitivo de mi equipo',
+        'Requiere esfuerzo pero el nivel competitivo de mi equipo es promedio',
+        'El esfuerzo requerido es más de fundamentos y aprendizaje general por el nivel de mi equipo'
+      ];
+      const DESCS = { school_intensity: INTENSITY_DESC, club_intensity: INTENSITY_DESC };
+
       function renderGroup(name) {
         const host = document.getElementById('grp-' + name);
         if (!host) return;
@@ -355,6 +725,7 @@
         OPTIONS[name].forEach(function (pair, i) {
           const id = name + '_' + i;
           const wrap = document.createElement('div');
+          if (SPAN2[id]) wrap.className = 'span-2';
           const input = document.createElement('input');
           input.type = 'radio';
           input.name = name;
@@ -363,8 +734,30 @@
           input.className = 'opt-input';
           const label = document.createElement('label');
           label.htmlFor = id;
-          label.className = 'opt h-full px-1.5 text-sm text-center ' + (MONO_GROUPS.has(name) ? 'font-mono font-bold' : 'font-semibold');
-          label.textContent = pair[1];
+          label.className = DESCS[name] ? 'opt opt-row' : 'opt';
+          const text = pair[1];
+          if (DESCS[name]) {
+            const mm = document.createElement('span'); mm.className = 'main'; mm.textContent = text;
+            const dd = document.createElement('span'); dd.className = 'desc'; dd.textContent = DESCS[name][i];
+            label.appendChild(mm); label.appendChild(dd);
+            wrap.appendChild(input); wrap.appendChild(label); frag.appendChild(wrap);
+            return;
+          }
+          let main = text, unit = '';
+          const split = text.match(/^([\d+\-]+)\s(.+)$/);
+          if (UNITS[name]) unit = UNITS[name][i];
+          else if (split) { main = split[1]; unit = split[2]; }
+          const m = document.createElement('span');
+          m.className = 'main' + (MONO_GROUPS.has(name) ? ' mono' : (/^[\d+\-]/.test(main) ? ' big' : ''));
+          m.textContent = main;
+          label.appendChild(m);
+          if (unit) {
+            const u = document.createElement('span');
+            u.className = 'unit';
+            u.textContent = unit;
+            label.appendChild(u);
+          }
+          label.setAttribute('aria-label', unit ? main + ' ' + unit : main);
           wrap.appendChild(input);
           wrap.appendChild(label);
           frag.appendChild(wrap);
@@ -406,6 +799,7 @@
         const n = answeredCount();
         progressBar.style.width = Math.round((n / REQUIRED_TOTAL) * 100) + '%';
         progressText.textContent = n + ' de ' + REQUIRED_TOTAL + ' preguntas requeridas';
+        updateSegments();
       }
       function clearInvalid(key) {
         const q = form.querySelector('[data-q="' + key + '"]');
@@ -436,6 +830,8 @@
         ordered.forEach(function (q) { q.classList.add('invalid'); });
         if (ordered.length) {
           const first = ordered[0];
+          const hostStep = first.closest('[data-step]');
+          if (hostStep && hostStep.hidden) goTo(Number(hostStep.dataset.step), -1, true);
           first.scrollIntoView({ behavior: 'smooth', block: 'center' });
           first.classList.remove('shake'); void first.offsetWidth; first.classList.add('shake');
           const focusable = first.querySelector('input.field, input[type="radio"]');
@@ -471,13 +867,11 @@
         btn.setAttribute('aria-busy', busy ? 'true' : 'false');
         btnSpinner.classList.toggle('hidden', !busy);
         btnLabel.textContent = busy ? 'Guardando respuesta' : 'Registrar evaluación';
+        document.getElementById('btnBack').disabled = busy;
       }
       function showStatus(kind, text) {
-        const styles = {
-          err: 'bg-rose-950/80 border border-rose-500/40 text-rose-300',
-          warn: 'bg-amber-950/70 border border-amber-500/40 text-amber-200'
-        };
-        statusMsg.className = 'text-sm p-4 rounded-xl text-center font-medium fade-in ' + styles[kind];
+        const styles = { err: 'status-err', warn: 'status-warn' };
+        statusMsg.className = 'fade-in ' + styles[kind];
         statusMsg.textContent = text;
       }
       function friendlyError(err) {
@@ -492,6 +886,7 @@
         thanksPanel.classList.remove('hidden');
         thanksPanel.classList.remove('fade-in'); void thanksPanel.offsetWidth; thanksPanel.classList.add('fade-in');
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        onThanks();
       }
 
       document.getElementById('btnAnother').addEventListener('click', function () {
@@ -504,6 +899,7 @@
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
         if (inFlight) return;
+        if (current !== LAST) { next(); return; }
         statusMsg.classList.add('hidden');
         if (!validate()) {
           showStatus('warn', 'Faltan preguntas requeridas. Están marcadas en rojo.');
@@ -521,6 +917,10 @@
           competition_level: pickRadio('division'),
           club_practice_days_sep_oct: pickRadio('club_days'),
           same_day_overlap_frequency: pickRadio('overlap_freq'),
+          school_intensity: pickRadio('school_intensity'),
+          club_intensity: pickRadio('club_intensity'),
+          can_handle_load: pickRadio('can_handle_load'),
+          wants_club_break: pickRadio('wants_club_break'),
           calendar_preference: pickRadio('calendar_vote'),
           comments: sanitizeText(document.getElementById('comments').value, 600, true) || null
         };
@@ -550,8 +950,232 @@
         }
       });
 
+      /* ---------- Experiencia guiada por secciones (capa visual) ---------- */
+      const LAST = 6;
+      const SECTION_NAMES = ['', 'Perfil del Atleta', 'Calendario Escolar Regular (Ago - Oct)', 'Calendario de Club (Sept - Oct)', 'Percepción de Carga', 'Propuesta de Calendario', 'Comentarios'];
+      const steps = Array.prototype.slice.call(form.querySelectorAll('[data-step]'));
+      const intro = document.getElementById('intro');
+      const segWrap = document.getElementById('segWrap');
+      const segs = Array.prototype.slice.call(document.querySelectorAll('.seg'));
+      const stepCount = document.getElementById('stepCount');
+      const announce = document.getElementById('stepAnnounce');
+      const btnNext = document.getElementById('btnNext');
+      const btnBack = document.getElementById('btnBack');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let current = 0;
+      let maxVisited = 0;
+
+      function stepKeys(n) {
+        const s = steps[n - 1];
+        return s ? Array.prototype.slice.call(s.querySelectorAll('[data-q]')).map(function (q) { return q.dataset.q; }) : [];
+      }
+      function isAnswered(key) {
+        if (OPTIONS[key]) return !!pickRadio(key);
+        const el = document.getElementById(key);
+        return !!(el && sanitizeText(el.value, 200, false));
+      }
+
+      function updateSegments() {
+        segs.forEach(function (seg, i) {
+          const n = i + 1;
+          const keys = stepKeys(n);
+          let frac;
+          if (keys.length) frac = keys.filter(isAnswered).length / keys.length;
+          else frac = maxVisited >= n ? 1 : 0;
+          seg.firstElementChild.style.width = Math.round(frac * 100) + '%';
+          seg.classList.toggle('cur', n === current);
+        });
+        if (current === LAST) renderReview();
+      }
+
+      function goTo(n, dir, silent) {
+        const prev = current;
+        current = n;
+        maxVisited = Math.max(maxVisited, n);
+        intro.hidden = n !== 0;
+        form.hidden = n === 0;
+        document.body.classList.toggle('in-form', n !== 0);
+        steps.forEach(function (s) { s.hidden = Number(s.dataset.step) !== n; });
+        segWrap.hidden = n === 0;
+        stepCount.innerHTML = n === 0 ? '' : '<b>' + String(n).padStart(2, '0') + '</b> / 0' + LAST;
+        btnNext.hidden = n === LAST;
+        btn.hidden = n !== LAST;
+        statusMsg.classList.add('hidden');
+        const screen = n === 0 ? intro : steps[n - 1];
+        if (!reduceMotion && prev !== n) {
+          screen.classList.remove('enter-fwd', 'enter-back'); void screen.offsetWidth;
+          screen.classList.add(dir < 0 ? 'enter-back' : 'enter-fwd');
+        }
+        updateSegments();
+        if (n === LAST) renderReview();
+        if (!silent) {
+          window.scrollTo(0, 0);
+          const h = screen.querySelector('h1, h2');
+          if (h && n !== 0) h.focus({ preventScroll: true });
+          announce.textContent = n === 0 ? '' : 'Sección ' + n + ' de ' + LAST + ': ' + SECTION_NAMES[n];
+        }
+      }
+
+      function validateStep(n) {
+        const keys = stepKeys(n);
+        const missing = keys.filter(function (k) { return !isAnswered(k); });
+        const blocks = steps[n - 1].querySelectorAll('[data-q]');
+        Array.prototype.forEach.call(blocks, function (q) { q.classList.toggle('invalid', missing.indexOf(q.dataset.q) !== -1); });
+        if (missing.length) {
+          const first = steps[n - 1].querySelector('[data-q="' + missing[0] + '"]');
+          const top = first.getBoundingClientRect().top + window.pageYOffset - 120;
+          window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? 'auto' : 'smooth' });
+          first.classList.remove('shake'); void first.offsetWidth; first.classList.add('shake');
+          const focusable = first.querySelector('input.field, input[type="radio"]');
+          if (focusable) setTimeout(function () { focusable.focus({ preventScroll: true }); }, 300);
+          announce.textContent = missing.length === 1 ? 'Falta 1 pregunta requerida en esta sección.' : 'Faltan ' + missing.length + ' preguntas requeridas en esta sección.';
+          if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) { /* no disponible */ } }
+        }
+        return missing.length === 0;
+      }
+
+      function next() {
+        if (current === 0) { goTo(1, 1); return; }
+        if (!validateStep(current)) return;
+        if (current < LAST) goTo(current + 1, 1);
+      }
+      function back() {
+        if (inFlight) return;
+        goTo(Math.max(0, current - 1), -1);
+      }
+
+      document.getElementById('btnStart').addEventListener('click', function () { goTo(1, 1); });
+      btnNext.addEventListener('click', next);
+      btnBack.addEventListener('click', back);
+      document.getElementById('btnAnother').addEventListener('click', function () { maxVisited = 0; goTo(1, 1); });
+
+      form.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type === 'text' && current !== LAST) {
+          e.preventDefault();
+          next();
+        }
+      });
+
+      /* Revisión */
+      function labelFor(name, value) {
+        if (!value) return null;
+        if (name === 'calendar_vote') return value === 'modelo_noviembre' ? 'Opción A: Modelo Noviembre' : 'Opción B: Modelo Tradicional';
+        const p = OPTIONS[name].filter(function (x) { return x[0] === value; })[0];
+        if (!p) return value;
+        const i = OPTIONS[name].indexOf(p);
+        return UNITS[name] ? p[1] + ' ' + UNITS[name][i] : p[1];
+      }
+      const REVIEW = [
+        [1, 'Perfil del Atleta', [['Nombre', 'athleteName', true], ['Categoría', 'category'], ['Escuela', 'schoolName']]],
+        [2, 'Calendario Escolar', [['Prácticas/semana', 'school_practice'], ['Partidos Lun - Jue', 'school_games'], ['Fines de semana con torneos', 'school_tournaments'], ['Intensidad', 'school_intensity']]],
+        [3, 'Calendario de Club', [['Club', 'clubName'], ['División', 'division'], ['Prácticas/semana', 'club_days'], ['Doble práctica', 'overlap_freq'], ['Intensidad', 'club_intensity']]],
+        [4, 'Percepción de Carga', [['Puedo con la carga sep - oct', 'can_handle_load'], ['Receso de club sep - oct', 'wants_club_break']]],
+        [5, 'Propuesta de Calendario', [['Modelo', 'calendar_vote']]]
+      ];
+      const reviewList = document.getElementById('reviewList');
+      function renderReview() {
+        reviewList.textContent = '';
+        REVIEW.forEach(function (sec) {
+          const wrap = document.createElement('div');
+          wrap.className = 'rv-sec';
+          const head = document.createElement('div');
+          head.className = 'rv-head';
+          const t = document.createElement('span');
+          t.className = 't-label';
+          t.textContent = String(sec[0]).padStart(2, '0') + ' · ' + sec[1];
+          const ed = document.createElement('button');
+          ed.type = 'button';
+          ed.className = 'rv-edit';
+          ed.textContent = 'Editar';
+          ed.setAttribute('aria-label', 'Editar ' + sec[1]);
+          ed.addEventListener('click', function () { goTo(sec[0], -1); });
+          head.appendChild(t); head.appendChild(ed);
+          const dl = document.createElement('dl');
+          dl.style.margin = '0'; dl.style.display = 'grid'; dl.style.gap = '8px';
+          sec[2].forEach(function (row) {
+            const r = document.createElement('div');
+            r.className = 'rv-row';
+            const dt = document.createElement('dt'); dt.textContent = row[0];
+            const dd = document.createElement('dd');
+            let v;
+            if (OPTIONS[row[1]]) v = labelFor(row[1], pickRadio(row[1]));
+            else v = sanitizeText(document.getElementById(row[1]).value, 120, false) || null;
+            if (v) dd.textContent = v;
+            else if (row[2]) { dd.textContent = 'Sin nombre'; dd.style.color = 'var(--tx3)'; dd.style.fontWeight = '500'; }
+            else { dd.textContent = 'Pendiente'; dd.className = 'missing'; }
+            r.appendChild(dt); r.appendChild(dd); dl.appendChild(r);
+          });
+          wrap.appendChild(head); wrap.appendChild(dl);
+          reviewList.appendChild(wrap);
+        });
+        renderLoad();
+      }
+
+      /* Gráfica 3D de carga semanal */
+      const LOAD = {
+        school_practice: { '1-2 días': [1.5, '1-2'], '3-4 días': [3.5, '3-4'], '5+ días': [5, '5+'] },
+        club_days: { '0 días': [0, '0'], '1 día': [1, '1'], '2 días': [2, '2'], '3 días': [3, '3'], 'Más de 3 días': [4, '+3'] },
+        overlap_freq: { '0 veces/sem': [0, '0'], '1 vez/sem': [1, '1'], '2 veces/sem': [2, '2'], '3+ veces/sem': [3, '3+'] }
+      };
+      function renderLoad() {
+        const keys = ['school_practice', 'club_days', 'overlap_freq'];
+        const words = ['Escuela', 'Club', 'Doble práctica'];
+        const parts = [];
+        keys.forEach(function (k, i) {
+          const v = pickRadio(k);
+          const bar = document.getElementById('isoB' + (i + 1));
+          const val = document.getElementById('isoV' + (i + 1));
+          if (v && LOAD[k][v]) {
+            const d = LOAD[k][v];
+            bar.classList.remove('empty');
+            bar.style.setProperty('--h', Math.max(4, Math.round(d[0] / 5 * 120)) + 'px');
+            val.textContent = d[1];
+            val.classList.remove('empty');
+            parts.push(words[i] + ': ' + labelFor(k, v));
+          } else {
+            bar.classList.add('empty');
+            bar.style.setProperty('--h', '4px');
+            val.textContent = '—';
+            val.classList.add('empty');
+            parts.push(words[i] + ': sin respuesta');
+          }
+        });
+        document.getElementById('isoChart').setAttribute('aria-label', 'Carga semanal. ' + parts.join('. '));
+      }
+
+      function onThanks() {
+        segs.forEach(function (s) { s.firstElementChild.style.width = '100%'; s.classList.remove('cur'); });
+        stepCount.innerHTML = '';
+        document.body.classList.remove('in-form');
+        announce.textContent = 'Evaluación registrada.';
+        setTimeout(function () { const h = document.getElementById('thanksTitle'); if (h) h.focus({ preventScroll: true }); }, 50);
+      }
+
+      /* Profundidad 3D: hero y tarjetas de modelo (solo puntero fino) */
+      if (!reduceMotion) {
+        const heroObj = document.getElementById('heroObj');
+        window.addEventListener('pointermove', function (e) {
+          if (e.pointerType !== 'mouse' || intro.hidden) return;
+          heroObj.style.setProperty('--px', ((e.clientX / window.innerWidth) - 0.5).toFixed(3));
+          heroObj.style.setProperty('--py', ((e.clientY / window.innerHeight) - 0.5).toFixed(3));
+        }, { passive: true });
+        document.querySelectorAll('.opt-model').forEach(function (card) {
+          card.addEventListener('pointermove', function (e) {
+            if (e.pointerType !== 'mouse') return;
+            const r = card.getBoundingClientRect();
+            card.style.setProperty('--ry', (((e.clientX - r.left) / r.width) - 0.5) * 6 + 'deg');
+            card.style.setProperty('--rx', (0.5 - ((e.clientY - r.top) / r.height)) * 6 + 'deg');
+          });
+          card.addEventListener('pointerleave', function () {
+            card.style.setProperty('--rx', '0deg');
+            card.style.setProperty('--ry', '0deg');
+          });
+        });
+      }
+
       updateProgress();
-    })();
+      goTo(0, 1, true);
+    });
   </script>
 </body>
 </html>
