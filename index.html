@@ -94,7 +94,7 @@
     
     .stepcount { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .06em; color: var(--tx2); font-variant-numeric: tabular-nums; }
     .stepcount b { color: var(--tx); font-weight: 700; }
-    .segs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 12px; padding: 0 4px; }
+    .segs { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 12px; padding: 0 4px; }
     .seg { height: 6px; background: var(--s3); transform: skewX(-28deg); border-radius: 1px; overflow: hidden; position: relative; }
     .seg i { position: absolute; inset: 0; width: 0; background: var(--acc); transition: width .45s var(--ease); }
     .seg.cur { background: #1d2438; }
@@ -356,7 +356,7 @@
       </div>
       <div id="segWrap" hidden>
         <div class="segs" aria-hidden="true">
-          <div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div>
+          <div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div>
         </div>
         <div id="progressBarTrack" aria-hidden="true"><div id="progressBar"></div></div>
       </div>
@@ -384,12 +384,12 @@
             <span class="t-label">MOVE · Estudio de calendarización</span>
             <h1 id="introTitle" class="t-display">Cuestionario sobre Calendarización</h1>
             <p class="t-body" style="color:var(--tx);font-weight:600">Temporada Escolar / Temporada Club</p>
-            <p class="t-body">Medimos el cruce de carga entre la temporada escolar y la de club para decidir el calendario de la próxima temporada. Toma menos de 2 minutos.</p>
+            <p class="t-body">Medimos el cruce de carga entre la temporada escolar y la de club para decidir el calendario de la próxima temporada. Toma unos 3 minutos.</p>
           </div>
           <div class="facts">
-            <div class="fact"><b>06</b><span class="t-label">Secciones</span></div>
-            <div class="fact"><b>14</b><span class="t-label">Requeridas</span></div>
-            <div class="fact"><b>2&#8239;min</b><span class="t-label">Duración</span></div>
+            <div class="fact"><b>07</b><span class="t-label">Secciones</span></div>
+            <div class="fact"><b>20</b><span class="t-label">Requeridas</span></div>
+            <div class="fact"><b>3&#8239;min</b><span class="t-label">Duración</span></div>
           </div>
           <button type="button" id="btnStart" class="btn btn-primary btn-block">
             Comenzar
@@ -423,6 +423,12 @@
             <input type="text" id="schoolName" maxlength="120" placeholder="Nombre de tu institución escolar" class="field" enterkeyhint="next" />
             <p class="q-err">Escribe el nombre de tu escuela o colegio.</p>
           </div>
+
+          <fieldset class="q" data-q="school_league">
+            <legend class="q-label t-q">Liga escolar en la que juegas *</legend>
+            <div class="grid cols-3" id="grp-school_league"></div>
+            <p class="q-err">Selecciona tu liga.</p>
+          </fieldset>
         </section>
 
         <!-- 02 CALENDARIO ESCOLAR -->
@@ -445,7 +451,7 @@
           </fieldset>
 
           <fieldset class="q" data-q="school_tournaments">
-            <legend class="q-label t-q">Fines de semana al mes con torneos o copas escolares *</legend>
+            <legend class="q-label t-q">Fines de semana al mes con torneos, copas o invitacionales escolares *</legend>
             <div class="grid cols-4" id="grp-school_tournaments"></div>
             <p class="q-err">Selecciona una opción.</p>
           </fieldset>
@@ -516,11 +522,50 @@
           </fieldset>
         </section>
 
-        <!-- 05 PROPUESTA DE CALENDARIO -->
+        <!-- 05 RECUPERACION Y BIENESTAR -->
         <section class="screen" data-step="5" hidden aria-labelledby="h5s">
           <div class="sec-head">
             <span class="t-label num">Sección 05</span>
-            <h2 id="h5s" class="t-title" tabindex="-1">Propuesta de Calendario</h2>
+            <h2 id="h5s" class="t-title" tabindex="-1">Recuperación y Bienestar</h2>
+            <p class="t-body">Piensa en una semana típica de septiembre y octubre.</p>
+          </div>
+
+          <fieldset class="q" data-q="rest_days">
+            <legend class="q-label t-q">Días completos de descanso a la semana (sin práctica, juego, gimnasio ni torneo) *</legend>
+            <div class="grid cols-4" id="grp-rest_days"></div>
+            <p class="q-err">Selecciona una opción.</p>
+          </fieldset>
+
+          <fieldset class="q" data-q="gym_days">
+            <legend class="q-label t-q">Días de gimnasio o preparación física adicional a la semana *</legend>
+            <div class="grid cols-4" id="grp-gym_days"></div>
+            <p class="q-err">Selecciona una opción.</p>
+          </fieldset>
+
+          <fieldset class="q" data-q="monday_after">
+            <legend class="q-label t-q">Después de un torneo de fin de semana, el lunes normalmente tienes *</legend>
+            <div class="grid cols-3" id="grp-monday_after"></div>
+            <p class="q-err">Selecciona una opción.</p>
+          </fieldset>
+
+          <fieldset class="q" data-q="wellness_tracking">
+            <legend class="q-label t-q">¿Tu escuela o club te pide reportar cómo te sientes (sueño, dolor, cansancio)? *</legend>
+            <div class="grid cols-2" id="grp-wellness_tracking"></div>
+            <p class="q-err">Selecciona una opción.</p>
+          </fieldset>
+
+          <fieldset class="q" data-q="signals">
+            <legend class="q-label t-q">En las últimas semanas has notado... * <span class="opt-tag">(Marca todas las que apliquen)</span></legend>
+            <div class="grid cols-1" id="grp-signals"></div>
+            <p class="q-err">Marca al menos una opción, o "Ninguna de las anteriores".</p>
+          </fieldset>
+        </section>
+
+        <!-- 06 PROPUESTA DE CALENDARIO -->
+        <section class="screen" data-step="6" hidden aria-labelledby="h6s">
+          <div class="sec-head">
+            <span class="t-label num">Sección 06</span>
+            <h2 id="h6s" class="t-title" tabindex="-1">Propuesta de Calendario</h2>
           </div>
 
           <fieldset class="q" data-q="calendar_vote">
@@ -576,11 +621,11 @@
           </fieldset>
         </section>
 
-        <!-- 06 COMENTARIOS + REVISION -->
-        <section class="screen" data-step="6" hidden aria-labelledby="h6s">
+        <!-- 07 COMENTARIOS + REVISION -->
+        <section class="screen" data-step="7" hidden aria-labelledby="h7s">
           <div class="sec-head">
-            <span class="t-label num">Sección 06</span>
-            <h2 id="h6s" class="t-title" tabindex="-1">Comentarios</h2>
+            <span class="t-label num">Sección 07</span>
+            <h2 id="h7s" class="t-title" tabindex="-1">Comentarios</h2>
           </div>
           <div class="q">
             <label for="comments" class="q-label t-q">Comentarios u observaciones <span class="opt-tag">(Opcional)</span></label>
@@ -624,7 +669,7 @@
             <span id="btnLabel">Registrar evaluación</span>
           </button>
         </div>
-        <p id="progressText" class="t-label sr-only">0 de 10 preguntas requeridas</p>
+        <p id="progressText" class="t-label sr-only">0 de 20 preguntas requeridas</p>
       </form>
 
       <!-- Confirmacion -->
@@ -666,6 +711,9 @@
         category: [
           ['8U-12U', '8U-12U'], ['13U-14U', '13U-14U'], ['15U-16U', '15U-16U'], ['17U-18U', '17U-18U']
         ],
+        school_league: [
+          ['PRHSAA', 'PRHSAA'], ['LACC', 'LACC'], ['Otra', 'Otra']
+        ],
         school_practice: [
           ['1-2 días', '1-2 días'], ['3-4 días', '3-4 días'], ['5+ días', '5+ días']
         ],
@@ -696,13 +744,25 @@
         wants_club_break: [
           ['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']
         ],
+        rest_days: [
+          ['0 días', '0 días'], ['1 día', '1 día'], ['2 días', '2 días'], ['3+ días', '3+ días']
+        ],
+        gym_days: [
+          ['0 días', '0 días'], ['1 día', '1 día'], ['2 días', '2 días'], ['3+ días', '3+ días']
+        ],
+        monday_after: [
+          ['Descanso', 'Descanso'], ['Práctica o juego', 'Práctica o juego'], ['Depende', 'Depende']
+        ],
+        wellness_tracking: [
+          ['En la escuela', 'En la escuela'], ['En el club', 'En el club'], ['En ambos', 'En ambos'], ['No', 'No']
+        ],
         calendar_vote: [['modelo_noviembre'], ['modelo_tradicional']]
       };
 
       const MONO_GROUPS = new Set(['category']);
       const REQUIRED_RADIOS = Object.keys(OPTIONS);
       const REQUIRED_TEXT = ['schoolName', 'clubName'];
-      const REQUIRED_TOTAL = REQUIRED_RADIOS.length + REQUIRED_TEXT.length;
+      const REQUIRED_TOTAL = REQUIRED_RADIOS.length + REQUIRED_TEXT.length + 1;
 
       /* Presentación visual de etiquetas (no altera los values) */
       const UNITS = {
@@ -766,6 +826,56 @@
       }
       REQUIRED_RADIOS.forEach(renderGroup);
 
+      /* Señales de fatiga: selección múltiple, "Ninguna" es exclusiva */
+      const SIGNALS = [
+        ['sig_recuperacion_lenta', 'Necesito más tiempo para recuperarme después de prácticas o juegos'],
+        ['sig_dolor_recurrente', 'Dolor recurrente en rodillas, hombros, espalda, tobillos u otra articulación'],
+        ['sig_molestias_nuevas', 'Llego a las prácticas con molestias que antes no tenía'],
+        ['sig_hielo_tape_meds', 'Uso hielo, tape, medicamentos o antiinflamatorios para poder seguir jugando'],
+        ['sig_baja_rendimiento', 'Bajó mi salto, velocidad, fuerza o energía'],
+        ['sig_piernas_pesadas', 'Siento las piernas pesadas aun después de dormir'],
+        ['sig_cambio_animo', 'Cambios en mi motivación, humor, concentración o ganas de entrenar']
+      ];
+      const SIG_NONE = 'ninguna';
+      (function renderSignals() {
+        const host = document.getElementById('grp-signals');
+        const frag = document.createDocumentFragment();
+        SIGNALS.concat([[SIG_NONE, 'Ninguna de las anteriores']]).forEach(function (pair, i) {
+          const wrap = document.createElement('div');
+          const input = document.createElement('input');
+          input.type = 'checkbox';
+          input.name = 'signals';
+          input.id = 'signals_' + i;
+          input.value = pair[0];
+          input.className = 'opt-input';
+          const label = document.createElement('label');
+          label.htmlFor = input.id;
+          label.className = 'opt opt-row';
+          const m = document.createElement('span');
+          m.className = 'main';
+          m.style.fontSize = '15px';
+          m.style.fontWeight = '600';
+          m.textContent = pair[1];
+          label.appendChild(m);
+          wrap.appendChild(input); wrap.appendChild(label); frag.appendChild(wrap);
+        });
+        host.appendChild(frag);
+        host.addEventListener('change', function (e) {
+          const t = e.target;
+          if (!t || t.name !== 'signals' || !t.checked) return;
+          const all = host.querySelectorAll('input[name="signals"]');
+          Array.prototype.forEach.call(all, function (x) {
+            if (t.value === SIG_NONE ? x !== t : x.value === SIG_NONE) x.checked = false;
+          });
+        });
+      })();
+      function pickSignals() {
+        const els = document.querySelectorAll('input[name="signals"]:checked');
+        const allowed = SIGNALS.map(function (p) { return p[0]; }).concat([SIG_NONE]);
+        return Array.prototype.map.call(els, function (x) { return x.value; })
+          .filter(function (v) { return allowed.indexOf(v) !== -1; });
+      }
+
       /* Sanitizacion */
       const CONTROL_CHARS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u200B-\u200F\u2028\u2029\uFEFF]/g;
       function sanitizeText(raw, maxLen, multiline) {
@@ -793,6 +903,7 @@
         let n = 0;
         REQUIRED_RADIOS.forEach(function (name) { if (pickRadio(name)) n++; });
         REQUIRED_TEXT.forEach(function (id) { if (sanitizeText(document.getElementById(id).value, 200, false)) n++; });
+        if (pickSignals().length) n++;
         return n;
       }
       function updateProgress() {
@@ -824,6 +935,7 @@
         REQUIRED_TEXT.forEach(function (id) {
           if (!sanitizeText(document.getElementById(id).value, 200, false)) missing.push(id);
         });
+        if (!pickSignals().length) missing.push('signals');
         form.querySelectorAll('.q.invalid').forEach(function (q) { q.classList.remove('invalid'); });
         const ordered = Array.prototype.slice.call(form.querySelectorAll('[data-q]'))
           .filter(function (q) { return missing.indexOf(q.dataset.q) !== -1; });
@@ -834,7 +946,7 @@
           if (hostStep && hostStep.hidden) goTo(Number(hostStep.dataset.step), -1, true);
           first.scrollIntoView({ behavior: 'smooth', block: 'center' });
           first.classList.remove('shake'); void first.offsetWidth; first.classList.add('shake');
-          const focusable = first.querySelector('input.field, input[type="radio"]');
+          const focusable = first.querySelector('input.field, input[type="radio"], input[type="checkbox"]');
           if (focusable) setTimeout(function () { focusable.focus({ preventScroll: true }); }, 350);
         }
         return ordered.length === 0;
@@ -921,9 +1033,16 @@
           club_intensity: pickRadio('club_intensity'),
           can_handle_load: pickRadio('can_handle_load'),
           wants_club_break: pickRadio('wants_club_break'),
+          school_league: pickRadio('school_league'),
+          rest_days: pickRadio('rest_days'),
+          gym_days: pickRadio('gym_days'),
+          monday_after_tournament: pickRadio('monday_after'),
+          wellness_tracking: pickRadio('wellness_tracking'),
           calendar_preference: pickRadio('calendar_vote'),
           comments: sanitizeText(document.getElementById('comments').value, 600, true) || null
         };
+        const sigs = pickSignals();
+        SIGNALS.forEach(function (p) { payload[p[0]] = sigs.indexOf(p[0]) !== -1; });
 
         const fp = fingerprint(payload);
         const last = readLastFp();
@@ -951,8 +1070,8 @@
       });
 
       /* ---------- Experiencia guiada por secciones (capa visual) ---------- */
-      const LAST = 6;
-      const SECTION_NAMES = ['', 'Perfil del Atleta', 'Calendario Escolar Regular (Ago - Oct)', 'Calendario de Club (Sept - Oct)', 'Percepción de Carga', 'Propuesta de Calendario', 'Comentarios'];
+      const LAST = 7;
+      const SECTION_NAMES = ['', 'Perfil del Atleta', 'Calendario Escolar Regular (Ago - Oct)', 'Calendario de Club (Sept - Oct)', 'Percepción de Carga', 'Recuperación y Bienestar', 'Propuesta de Calendario', 'Comentarios'];
       const steps = Array.prototype.slice.call(form.querySelectorAll('[data-step]'));
       const intro = document.getElementById('intro');
       const segWrap = document.getElementById('segWrap');
@@ -970,6 +1089,7 @@
         return s ? Array.prototype.slice.call(s.querySelectorAll('[data-q]')).map(function (q) { return q.dataset.q; }) : [];
       }
       function isAnswered(key) {
+        if (key === 'signals') return pickSignals().length > 0;
         if (OPTIONS[key]) return !!pickRadio(key);
         const el = document.getElementById(key);
         return !!(el && sanitizeText(el.value, 200, false));
@@ -1026,7 +1146,7 @@
           const top = first.getBoundingClientRect().top + window.pageYOffset - 120;
           window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? 'auto' : 'smooth' });
           first.classList.remove('shake'); void first.offsetWidth; first.classList.add('shake');
-          const focusable = first.querySelector('input.field, input[type="radio"]');
+          const focusable = first.querySelector('input.field, input[type="radio"], input[type="checkbox"]');
           if (focusable) setTimeout(function () { focusable.focus({ preventScroll: true }); }, 300);
           announce.textContent = missing.length === 1 ? 'Falta 1 pregunta requerida en esta sección.' : 'Faltan ' + missing.length + ' preguntas requeridas en esta sección.';
           if (navigator.vibrate) { try { navigator.vibrate(12); } catch (e) { /* no disponible */ } }
@@ -1066,11 +1186,12 @@
         return UNITS[name] ? p[1] + ' ' + UNITS[name][i] : p[1];
       }
       const REVIEW = [
-        [1, 'Perfil del Atleta', [['Nombre', 'athleteName', true], ['Categoría', 'category'], ['Escuela', 'schoolName']]],
+        [1, 'Perfil del Atleta', [['Nombre', 'athleteName', true], ['Categoría', 'category'], ['Escuela', 'schoolName'], ['Liga', 'school_league']]],
         [2, 'Calendario Escolar', [['Prácticas/semana', 'school_practice'], ['Partidos Lun - Jue', 'school_games'], ['Fines de semana con torneos', 'school_tournaments'], ['Intensidad', 'school_intensity']]],
         [3, 'Calendario de Club', [['Club', 'clubName'], ['División', 'division'], ['Prácticas/semana', 'club_days'], ['Doble práctica', 'overlap_freq'], ['Intensidad', 'club_intensity']]],
         [4, 'Percepción de Carga', [['Puedo con la carga sep - oct', 'can_handle_load'], ['Receso de club sep - oct', 'wants_club_break']]],
-        [5, 'Propuesta de Calendario', [['Modelo', 'calendar_vote']]]
+        [5, 'Recuperación y Bienestar', [['Días de descanso', 'rest_days'], ['Días de gimnasio', 'gym_days'], ['Lunes después de torneo', 'monday_after'], ['Reporte de bienestar', 'wellness_tracking'], ['Señales', 'signals']]],
+        [6, 'Propuesta de Calendario', [['Modelo', 'calendar_vote']]]
       ];
       const reviewList = document.getElementById('reviewList');
       function renderReview() {
@@ -1098,7 +1219,11 @@
             const dt = document.createElement('dt'); dt.textContent = row[0];
             const dd = document.createElement('dd');
             let v;
-            if (OPTIONS[row[1]]) v = labelFor(row[1], pickRadio(row[1]));
+            if (row[1] === 'signals') {
+              const sg = pickSignals();
+              v = !sg.length ? null : (sg[0] === SIG_NONE ? 'Ninguna' : sg.length + (sg.length === 1 ? ' marcada' : ' marcadas'));
+            }
+            else if (OPTIONS[row[1]]) v = labelFor(row[1], pickRadio(row[1]));
             else v = sanitizeText(document.getElementById(row[1]).value, 120, false) || null;
             if (v) dd.textContent = v;
             else if (row[2]) { dd.textContent = 'Sin nombre'; dd.style.color = 'var(--tx3)'; dd.style.fontWeight = '500'; }
