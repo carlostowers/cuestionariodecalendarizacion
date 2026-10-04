@@ -1,54 +1,131 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Estudio de Carga Atlética · Voleibol Juvenil</title>
-  
-  <!-- Tailwind CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Estudio Operativo de Carga Atlética · Voleibol Juvenil Puerto Rico</title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN con configuración custom -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Supabase JS -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            accent: {
+              emerald: '#10b981',
+              rose: '#f43f5e',
+              amber: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Supabase JS v2 & Chart.js v4 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* Estilización del scrollbar para navegadores basados en Chromium/WebKit */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+    /* Radio cards interactivas */
+    .selection-card:has(input[type="radio"]:checked) {
+      border-color: #6366f1;
+      background-color: rgba(99, 102, 241, 0.08);
+      box-shadow: 0 0 0 1px #6366f1, 0 10px 25px -5px rgba(99, 102, 241, 0.15);
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased p-4 sm:p-6 md:p-8">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-brand-500 selection:text-white pb-16">
 
-  <div class="max-w-xl mx-auto space-y-6">
+  <!-- Glow ambiental superior -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-48 bg-gradient-to-b from-brand-600/10 via-transparent to-transparent pointer-events-none blur-3xl -z-10"></div>
 
-    <!-- Encabezado y Selector de Vista -->
-    <header class="flex justify-between items-center border-b border-slate-800 pb-4">
-      <div>
-        <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight">Estudio de Carga Atlética</h1>
-        <p class="text-xs text-slate-400">Temporada Escolar vs. Club · Puerto Rico</p>
+  <div class="max-w-2xl mx-auto px-4 pt-6 sm:pt-10 space-y-8">
+
+    <!-- Header Institucional y Switcher de Estado -->
+    <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+      <div class="space-y-1">
+        <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-[11px] font-semibold tracking-wide uppercase">
+          <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+          Investigación Operativa Deportiva
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+          Balance de Carga Atlética
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-400">
+          Temporada Escolar (Ago-Oct) vs. Ciclo de Club en Puerto Rico
+        </p>
       </div>
-      <div class="flex gap-2">
-        <button id="btnTabSurvey" onclick="showTab('survey')" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-xl transition">Encuesta</button>
-        <button id="btnTabDashboard" onclick="showTab('dashboard')" class="bg-slate-900 border border-slate-700 text-slate-300 text-xs font-semibold px-3 py-2 rounded-xl hover:bg-slate-800 transition">Resultados</button>
-      </div>
+
+      <!-- Segmented Navigation Pill -->
+      <nav class="flex p-1 bg-slate-900 border border-slate-800 rounded-xl self-start sm:self-center shadow-inner">
+        <button id="tabBtnSurvey" onclick="switchView('survey')" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-200 bg-brand-600 text-white shadow-md">
+          Encuesta
+        </button>
+        <button id="tabBtnDashboard" onclick="switchView('dashboard')" class="px-4 py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all duration-200">
+          Resultados
+        </button>
+      </nav>
     </header>
 
-    <!-- VISTA 1: FORMULARIO SECUENCIAL -->
-    <section id="viewSurvey" class="space-y-6">
-      <form id="surveyForm" onsubmit="submitSurvey(event)" class="space-y-5">
-        
-        <!-- SECCIÓN 1: PERFIL -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <div class="flex items-center gap-2 border-b border-slate-800 pb-2">
-            <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xs flex items-center justify-center">1</span>
-            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Perfil del Atleta</h2>
+    <!-- VISTA 1: FORMULARIO TÉCNICO -->
+    <main id="surveyContainer" class="space-y-6">
+      <form id="evaluationForm" onsubmit="handleFormSubmission(event)" class="space-y-6">
+
+        <!-- 1. Perfil y Clasificación -->
+        <section class="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-5 sm:p-6 backdrop-blur space-y-4 shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-800/60 pb-3">
+            <div class="flex items-center gap-2.5">
+              <span class="w-6 h-6 rounded-lg bg-brand-500/10 text-brand-400 border border-brand-500/20 text-xs font-mono font-bold flex items-center justify-center">01</span>
+              <h2 class="text-sm font-bold text-white tracking-wide uppercase">Perfil del Atleta</h2>
+            </div>
+            <span class="text-[11px] text-slate-500 font-medium">* Requerido</span>
           </div>
 
-          <div class="space-y-3 text-sm">
+          <div class="space-y-4">
             <div>
-              <label class="block text-slate-300 text-xs font-medium mb-1">Nombre completo (Opcional)</label>
-              <input type="text" id="athlete_name" placeholder="Tu nombre" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 text-sm" />
+              <label for="athleteName" class="block text-xs font-semibold text-slate-300 mb-1.5">Nombre Completo <span class="text-slate-500 font-normal">(Opcional)</span></label>
+              <input type="text" id="athleteName" maxlength="80" placeholder="Nombre y Apellidos" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition" />
             </div>
 
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
-                <label class="block text-slate-300 text-xs font-medium mb-1">Categoría</label>
-                <select id="category" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-blue-500 text-sm">
+                <label for="athleteCategory" class="block text-xs font-semibold text-slate-300 mb-1.5">Categoría de Edad *</label>
+                <select id="athleteCategory" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition cursor-pointer">
                   <option value="10U-12U">10U - 12U</option>
                   <option value="13U-14U">13U - 14U</option>
                   <option value="15U-16U" selected>15U - 16U</option>
@@ -57,32 +134,32 @@
               </div>
 
               <div>
-                <label class="block text-slate-300 text-xs font-medium mb-1">Nivel en Club</label>
-                <select id="competition_level" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-blue-500 text-sm">
-                  <option value="Open">División Open</option>
+                <label for="athleteDivision" class="block text-xs font-semibold text-slate-300 mb-1.5">División de Juego en Club *</label>
+                <select id="athleteDivision" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition cursor-pointer">
+                  <option value="Open">División Open (Alta Competencia)</option>
                   <option value="Club" selected>División Club</option>
                 </select>
               </div>
             </div>
 
             <div>
-              <label class="block text-slate-300 text-xs font-medium mb-1">Escuela o Colegio <span class="text-blue-400">*</span></label>
-              <input type="text" id="school_name" required placeholder="Nombre de tu institución escolar" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 text-sm" />
+              <label for="schoolName" class="block text-xs font-semibold text-slate-300 mb-1.5">Escuela o Colegio *</label>
+              <input type="text" id="schoolName" required maxlength="120" placeholder="Nombre oficial de la institución escolar" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500 transition" />
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- SECCIÓN 2: TEMPORADA ESCOLAR -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <div class="flex items-center gap-2 border-b border-slate-800 pb-2">
-            <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xs flex items-center justify-center">2</span>
-            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Compromisos Escolares (Ago - Oct)</h2>
+        <!-- 2. Compromisos Escolares -->
+        <section class="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-5 sm:p-6 backdrop-blur space-y-4 shadow-sm">
+          <div class="flex items-center gap-2.5 border-b border-slate-800/60 pb-3">
+            <span class="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-mono font-bold flex items-center justify-center">02</span>
+            <h2 class="text-sm font-bold text-white tracking-wide uppercase">Carga Escolar Regular (Agosto a Octubre)</h2>
           </div>
 
-          <div class="space-y-3 text-sm">
+          <div class="space-y-4">
             <div>
-              <label class="block text-slate-300 text-xs font-medium mb-1">Prácticas escolares a la semana:</label>
-              <select id="school_practice_days" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-amber-500 text-sm">
+              <label for="schoolPracticeDays" class="block text-xs font-semibold text-slate-300 mb-1.5">Días de práctica escolar a la semana:</label>
+              <select id="schoolPracticeDays" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition cursor-pointer">
                 <option value="1-2 días">1 a 2 días</option>
                 <option value="3-4 días" selected>3 a 4 días</option>
                 <option value="5+ días">5 o más días</option>
@@ -90,234 +167,401 @@
             </div>
 
             <div>
-              <label class="block text-slate-300 text-xs font-medium mb-1">Partidos escolares entre semana (Lunes a Jueves):</label>
-              <select id="school_weekday_games" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-amber-500 text-sm">
+              <label for="schoolWeekdayGames" class="block text-xs font-semibold text-slate-300 mb-1.5">Partidos escolares entre semana (Lunes a Jueves):</label>
+              <select id="schoolWeekdayGames" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition cursor-pointer">
                 <option value="Ninguno">Ninguno</option>
-                <option value="1 partido">1 partido</option>
-                <option value="2 partidos" selected>2 partidos</option>
-                <option value="3+ partidos">3 o más partidos</option>
+                <option value="1 partido">1 partido por semana</option>
+                <option value="2 partidos" selected>2 partidos por semana</option>
+                <option value="3+ partidos">3 o más partidos por semana</option>
               </select>
             </div>
 
             <div>
-              <label class="block text-slate-300 text-xs font-medium mb-1">Fines de semana al mes con torneos/copas escolares:</label>
-              <select id="school_weekend_tournaments" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-amber-500 text-sm">
+              <label for="schoolWeekendTournaments" class="block text-xs font-semibold text-slate-300 mb-1.5">Fines de semana al mes con torneos/copas escolares (Vie-Dom):</label>
+              <select id="schoolWeekendTournaments" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500 transition cursor-pointer">
                 <option value="1 fin de semana">1 fin de semana al mes</option>
                 <option value="2 fines de semana" selected>2 fines de semana al mes</option>
-                <option value="3-4 fines de semana">3 a 4 fines de semana (casi todos)</option>
+                <option value="3-4 fines de semana">3 a 4 fines de semana al mes (Casi todos)</option>
               </select>
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- SECCIÓN 3: CLUB EN SEPTIEMBRE Y OCTUBRE -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <div class="flex items-center gap-2 border-b border-slate-800 pb-2">
-            <span class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 font-bold text-xs flex items-center justify-center">3</span>
-            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Cruce con Prácticas de Club</h2>
+        <!-- 3. Solapamiento con Club -->
+        <section class="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-5 sm:p-6 backdrop-blur space-y-4 shadow-sm">
+          <div class="flex items-center gap-2.5 border-b border-slate-800/60 pb-3">
+            <span class="w-6 h-6 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-mono font-bold flex items-center justify-center">03</span>
+            <h2 class="text-sm font-bold text-white tracking-wide uppercase">Cruce con Prácticas de Club (Sept - Oct)</h2>
           </div>
 
-          <div class="space-y-3 text-sm">
+          <div class="space-y-4">
             <div>
-              <label class="block text-slate-300 text-xs font-medium mb-1">¿Cuántos días a la semana vas a práctica de club en sep-oct?</label>
-              <select id="club_practice_days_sep_oct" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-rose-500 text-sm">
-                <option value="No practico">No practico en club durante esos meses</option>
-                <option value="1 día">1 día a la semana</option>
-                <option value="2 días" selected>2 días a la semana</option>
-                <option value="3+ días">3 o más días a la semana</option>
+              <label for="clubPracticeDays" class="block text-xs font-semibold text-slate-300 mb-1.5">¿Cuántos días a la semana asistes a práctica de club en estos meses?</label>
+              <select id="clubPracticeDays" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-rose-500/40 focus:border-rose-500 transition cursor-pointer">
+                <option value="No practico">No practico en club durante septiembre-octubre</option>
+                <option value="1 día">1 día por semana</option>
+                <option value="2 días" selected>2 días por semana</option>
+                <option value="3+ días">3 o más días por semana</option>
               </select>
             </div>
 
             <div>
-              <label class="block text-slate-300 text-xs font-medium mb-1">¿Con qué frecuencia tienes juego escolar y práctica de club el mismo día?</label>
-              <select id="same_day_overlap_frequency" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-rose-500 text-sm">
+              <label for="overlapFrequency" class="block text-xs font-semibold text-slate-300 mb-1.5">Frecuencia de doble sesión (juego escolar y práctica de club el mismo día):</label>
+              <select id="overlapFrequency" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-rose-500/40 focus:border-rose-500 transition cursor-pointer">
                 <option value="Nunca">Nunca</option>
                 <option value="1 vez/sem">1 vez por semana</option>
                 <option value="2+ veces/sem" selected>2 o más veces por semana</option>
               </select>
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- SECCIÓN 4: MODELO DE CALENDARIO -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <div class="flex items-center gap-2 border-b border-slate-800 pb-2">
-            <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 font-bold text-xs flex items-center justify-center">4</span>
-            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Propuesta de Calendario</h2>
+        <!-- 4. Propuesta de Calendario -->
+        <section class="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-5 sm:p-6 backdrop-blur space-y-4 shadow-sm">
+          <div class="flex items-center gap-2.5 border-b border-slate-800/60 pb-3">
+            <span class="w-6 h-6 rounded-lg bg-brand-500/10 text-brand-400 border border-brand-500/20 text-xs font-mono font-bold flex items-center justify-center">04</span>
+            <h2 class="text-sm font-bold text-white tracking-wide uppercase">Propuesta de Calendario Competitivo</h2>
           </div>
 
-          <div class="space-y-3 text-xs">
-            <label class="flex flex-col p-4 rounded-xl border border-slate-800 bg-slate-950 cursor-pointer has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/20 transition">
-              <div class="flex items-center gap-2 font-bold text-white text-sm">
-                <input type="radio" name="calendar_preference" value="modelo_noviembre" checked class="accent-indigo-500 w-4 h-4" />
-                Opción A: Modelo Noviembre
+          <div class="grid grid-cols-1 gap-3 text-xs">
+            <label class="selection-card relative flex flex-col p-4 rounded-xl border border-slate-800 bg-slate-950/70 cursor-pointer transition-all duration-200">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2.5">
+                  <input type="radio" name="calendarVote" value="modelo_noviembre" checked class="w-4 h-4 text-brand-600 focus:ring-brand-500 bg-slate-900 border-slate-700" />
+                  <span class="font-bold text-sm text-white">Opción A: Modelo Noviembre</span>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-brand-500/20 text-brand-300 border border-brand-500/30">Reestructuración</span>
               </div>
-              <p class="text-slate-400 mt-2 leading-relaxed">
-                Tryouts a inicios de agosto. Septiembre y octubre se reservan para competir al 100% con tu escuela (sin prácticas obligatorias de equipo de club o solo fundamentos técnicos 1 vez por semana). Las prácticas tácticas de club inician en noviembre al terminar las copas escolares.
+              <p class="text-slate-400 leading-relaxed pl-6.5">
+                Tryouts a inicios de agosto. Septiembre y octubre se reservan para competir al 100% con la escuela/colegio (sin prácticas obligatorias de club o solo fundamentos técnicos 1 vez por semana). Las prácticas tácticas de equipo inician formalmente en noviembre al finalizar los torneos escolares principales.
               </p>
             </label>
 
-            <label class="flex flex-col p-4 rounded-xl border border-slate-800 bg-slate-950 cursor-pointer has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/20 transition">
-              <div class="flex items-center gap-2 font-bold text-white text-sm">
-                <input type="radio" name="calendar_preference" value="modelo_tradicional" class="accent-indigo-500 w-4 h-4" />
-                Opción B: Modelo Tradicional
+            <label class="selection-card relative flex flex-col p-4 rounded-xl border border-slate-800 bg-slate-950/70 cursor-pointer transition-all duration-200">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2.5">
+                  <input type="radio" name="calendarVote" value="modelo_tradicional" class="w-4 h-4 text-brand-600 focus:ring-brand-500 bg-slate-900 border-slate-700" />
+                  <span class="font-bold text-sm text-white">Opción B: Modelo Tradicional</span>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-800 text-slate-400">Esquema Actual</span>
               </div>
-              <p class="text-slate-400 mt-2 leading-relaxed">
-                Prácticas regulares de equipo de club (2 a 3 días por semana) activas desde septiembre, corriendo al mismo tiempo que los juegos y torneos de la escuela.
+              <p class="text-slate-400 leading-relaxed pl-6.5">
+                Prácticas de equipo de club activas desde septiembre (2 a 3 días por semana), corriendo de forma simultánea con el torneo de liga y copas de fin de semana de la escuela.
               </p>
             </label>
           </div>
-        </div>
+        </section>
 
-        <!-- SECCIÓN 5: ESQUEMA FINANCIERO -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-          <div class="flex items-center gap-2 border-b border-slate-800 pb-2">
-            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center justify-center">5</span>
-            <h2 class="text-sm font-bold text-white uppercase tracking-wider">Esquema Económico Familiar</h2>
+        <!-- 5. Esquema Financiero -->
+        <section class="bg-slate-900/90 border border-slate-800/80 rounded-2xl p-5 sm:p-6 backdrop-blur space-y-4 shadow-sm">
+          <div class="flex items-center gap-2.5 border-b border-slate-800/60 pb-3">
+            <span class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-mono font-bold flex items-center justify-center">05</span>
+            <h2 class="text-sm font-bold text-white tracking-wide uppercase">Esquema Económico para las Familias</h2>
           </div>
 
-          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-slate-300 leading-relaxed">
-            <strong class="text-emerald-400">Propuesta de Cuotas:</strong> En septiembre y octubre los padres no pagan prácticas sueltas por separado a los coaches ni mensualidad deportiva al club; esos meses se usan para cubrir matrícula, uniformes o viajes. El costo del entrenamiento se distribuye prorrateado en las cuotas regulares de noviembre a junio.
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs leading-relaxed text-slate-300">
+            <p>
+              <strong class="text-emerald-400">Propuesta de Cuotas:</strong> En septiembre y octubre los padres <span class="underline decoration-emerald-500/40 underline-offset-2">no pagan prácticas sueltas por separado al entrenador ni mensualidad deportiva al club</span>. Esos meses se usan para amortizar matrícula, uniformes o compromisos de viaje. El costo por entrenamiento se distribuye prorrateado dentro de las cuotas regulares de competencia (noviembre a junio).
+            </p>
           </div>
 
-          <div class="space-y-3">
+          <div class="space-y-4">
             <div>
-              <label class="block text-slate-300 text-xs font-medium mb-1">¿Cómo evalúas esta alternativa económica?</label>
-              <select id="financial_plan_support" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-emerald-500 text-sm">
-                <option value="positiva" selected>Positiva: Alivia el gasto mensual al inicio de clases y elimina el cobro suelto</option>
-                <option value="negativa">Negativa: Prefiero pagar las prácticas sueltas en sep-oct y mantener la cuota sin cambios</option>
+              <label for="financialAssessment" class="block text-xs font-semibold text-slate-300 mb-1.5">Evaluación del Plan de Cuotas:</label>
+              <select id="financialAssessment" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition cursor-pointer">
+                <option value="positiva" selected>Positiva: Alivia el gasto mensual al inicio de clases y elimina el cobro suelto por práctica</option>
+                <option value="negativa">Negativa: Prefiero pagar las prácticas sueltas en sep-oct y mantener la mensualidad habitual</option>
                 <option value="indiferente">Indiferente</option>
               </select>
             </div>
 
             <div>
-              <label class="block text-slate-300 text-xs font-medium mb-1">Comentarios u observaciones adicionales:</label>
-              <textarea id="comments" rows="2" placeholder="Escribe aquí tu opinión o sugerencia..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500"></textarea>
+              <label for="observations" class="block text-xs font-semibold text-slate-300 mb-1.5">Observaciones o Sugerencias Adicionales <span class="text-slate-500 font-normal">(Opcional)</span></label>
+              <textarea id="observations" rows="3" maxlength="500" placeholder="Comparte tu perspectiva respecto a la carga física, lesiones o finanzas..." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs sm:text-sm text-white placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition resize-none"></textarea>
             </div>
+          </div>
+        </section>
+
+        <!-- Submit Button & Feedback Notification -->
+        <div class="space-y-3 pt-2">
+          <button id="submitBtn" type="submit" class="w-full py-4 px-6 rounded-xl font-bold text-sm tracking-wide bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-500 hover:to-brand-600 active:scale-[0.99] text-white shadow-lg shadow-brand-600/25 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+            <span>Registrar Evaluación en el Estudio</span>
+          </button>
+          
+          <div id="statusNotification" class="hidden text-xs sm:text-sm p-4 rounded-xl text-center font-medium transition-all"></div>
+        </div>
+      </form>
+    </main>
+
+    <!-- VISTA 2: DASHBOARD DIRECTIVO -->
+    <main id="dashboardContainer" class="hidden space-y-6">
+
+      <!-- Action Refresh Bar -->
+      <div class="flex items-center justify-between px-1">
+        <span class="text-xs text-slate-400 font-mono flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Conexión Realtime Activa
+        </span>
+        <button onclick="loadAnalyticsData()" class="px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:border-slate-700 transition flex items-center gap-1.5">
+          Actualizar Datos
+        </button>
+      </div>
+
+      <!-- KPI Executive Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+        <div class="bg-slate-900/90 border border-slate-800/80 p-4 rounded-2xl text-center shadow-sm">
+          <span class="text-[10px] text-slate-400 font-mono uppercase font-bold tracking-wider">Muestras</span>
+          <div id="kpiSamples" class="text-2xl sm:text-3xl font-black font-mono text-white mt-1">0</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800/80 p-4 rounded-2xl text-center shadow-sm">
+          <span class="text-[10px] text-brand-400 font-mono uppercase font-bold tracking-wider">Apoyo Noviembre</span>
+          <div id="kpiSupportNov" class="text-2xl sm:text-3xl font-black font-mono text-brand-400 mt-1">0%</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800/80 p-4 rounded-2xl text-center shadow-sm">
+          <span class="text-[10px] text-rose-400 font-mono uppercase font-bold tracking-wider">Doble Práctica ≥2d</span>
+          <div id="kpiHighOverlap" class="text-2xl sm:text-3xl font-black font-mono text-rose-400 mt-1">0%</div>
+        </div>
+
+        <div class="bg-slate-900/90 border border-slate-800/80 p-4 rounded-2xl text-center shadow-sm">
+          <span class="text-[10px] text-emerald-400 font-mono uppercase font-bold tracking-wider">Alivio Cuota</span>
+          <div id="kpiFinanceSupport" class="text-2xl sm:text-3xl font-black font-mono text-emerald-400 mt-1">0%</div>
+        </div>
+      </div>
+
+      <!-- Analytic Visualizations Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Voto de Calendario -->
+        <div class="bg-slate-900/90 border border-slate-800/80 p-5 rounded-2xl space-y-3 shadow-sm flex flex-col justify-between">
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider text-center">Decisión de Calendario</h3>
+          <div class="relative h-48 w-full flex items-center justify-center">
+            <canvas id="chartCalendar"></canvas>
           </div>
         </div>
 
-        <!-- Botón de Envío -->
-        <button id="btnSubmit" type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition">
-          Enviar Respuesta
-        </button>
-        <div id="statusMsg" class="hidden text-center text-sm p-4 rounded-xl"></div>
-      </form>
-    </section>
-
-    <!-- VISTA 2: RESULTADOS Y DIRECTIVA -->
-    <section id="viewDashboard" class="hidden space-y-5">
-      <div class="grid grid-cols-2 gap-3">
-        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl text-center">
-          <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Respuestas</span>
-          <div id="kpiTotal" class="text-3xl font-black text-white mt-1">0</div>
-        </div>
-        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl text-center">
-          <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Apoyo Modelo Nov.</span>
-          <div id="kpiSupport" class="text-3xl font-black text-indigo-400 mt-1">0%</div>
+        <!-- División Open vs Club -->
+        <div class="bg-slate-900/90 border border-slate-800/80 p-5 rounded-2xl space-y-3 shadow-sm flex flex-col justify-between">
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider text-center">Representación por División</h3>
+          <div class="relative h-48 w-full flex items-center justify-center">
+            <canvas id="chartDivision"></canvas>
+          </div>
         </div>
       </div>
 
-      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
-        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider text-center">Preferencia de Calendario</h3>
-        <div class="max-w-xs mx-auto">
-          <canvas id="chartVotes"></canvas>
+      <!-- Tabla de Respuestas Recientes -->
+      <div class="bg-slate-900/90 border border-slate-800/80 rounded-2xl overflow-hidden shadow-sm">
+        <div class="px-5 py-3.5 border-b border-slate-800/80 flex items-center justify-between">
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Registros Recientes</h3>
+          <span id="recordCountLabel" class="text-[11px] font-mono text-slate-500">Últimos registros</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-slate-400 uppercase font-mono border-b border-slate-800/80">
+              <tr>
+                <th class="py-3 px-4">Atleta / Escuela</th>
+                <th class="py-3 px-4">División</th>
+                <th class="py-3 px-4">Doble Práctica</th>
+                <th class="py-3 px-4">Calendario</th>
+              </tr>
+            </thead>
+            <tbody id="recentResponsesBody" class="divide-y divide-slate-800/60 text-slate-300">
+              <tr>
+                <td colspan="4" class="py-6 text-center text-slate-500">Cargando datos del servidor...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+    </main>
 
-      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-3">
-        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider text-center">Aceptación de Plan Financiero</h3>
-        <div class="max-w-xs mx-auto">
-          <canvas id="chartFinance"></canvas>
-        </div>
-      </div>
-    </section>
-
+    <footer class="pt-6 border-t border-slate-800/60 text-center text-xs text-slate-600">
+      Estudio Operativo de Carga en Atletas Juveniles · Voleibol Puerto Rico
+    </footer>
   </div>
 
+  <!-- LÓGICA DE APLICACIÓN -->
   <script>
-    // CREDENCIALES DE TU PROYECTO SUPABASE
-    const SUPABASE_URL = "https://TU-PROYECTO.supabase.co";
-    const SUPABASE_KEY = "TU-ANON-KEY";
-    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    // ==========================================
+    // CONFIGURACIÓN DE CONEXIÓN A SUPABASE
+    // ==========================================
+    const SUPABASE_CONFIG = {
+      url: "https://TU_PROYECTO.supabase.co",
+      key: "TU_ANON_KEY"
+    };
 
-    let voteChart = null;
-    let financeChart = null;
+    const supabaseClient = supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.key);
 
-    function showTab(tab) {
-      if (tab === 'survey') {
-        document.getElementById('viewSurvey').classList.remove('hidden');
-        document.getElementById('viewDashboard').classList.add('hidden');
-        document.getElementById('btnTabSurvey').className = "bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-xl transition";
-        document.getElementById('btnTabDashboard').className = "bg-slate-900 border border-slate-700 text-slate-300 text-xs font-semibold px-3 py-2 rounded-xl hover:bg-slate-800 transition";
+    let calendarChartInstance = null;
+    let divisionChartInstance = null;
+
+    // ==========================================
+    // SANITIZACIÓN DEFENSIVA (ANTI-XSS)
+    // ==========================================
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // ==========================================
+    // CAMBIO DE VISTAS (TAB CONTROL)
+    // ==========================================
+    function switchView(target) {
+      const surveyView = document.getElementById('surveyContainer');
+      const dashView = document.getElementById('dashboardContainer');
+      const btnSurvey = document.getElementById('tabBtnSurvey');
+      const btnDash = document.getElementById('tabBtnDashboard');
+
+      if (target === 'survey') {
+        surveyView.classList.remove('hidden');
+        dashView.classList.add('hidden');
+        btnSurvey.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-200 bg-brand-600 text-white shadow-md";
+        btnDash.className = "px-4 py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all duration-200";
       } else {
-        document.getElementById('viewSurvey').classList.add('hidden');
-        document.getElementById('viewDashboard').classList.remove('hidden');
-        document.getElementById('btnTabDashboard').className = "bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-xl transition";
-        document.getElementById('btnTabSurvey').className = "bg-slate-900 border border-slate-700 text-slate-300 text-xs font-semibold px-3 py-2 rounded-xl hover:bg-slate-800 transition";
-        loadDashboardMetrics();
+        surveyView.classList.add('hidden');
+        dashView.classList.remove('hidden');
+        btnDash.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-200 bg-brand-600 text-white shadow-md";
+        btnSurvey.className = "px-4 py-2 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all duration-200";
+        loadAnalyticsData();
       }
     }
 
-    async function submitSurvey(e) {
+    // ==========================================
+    // ENVÍO DE DATOS IDEMPOTENTE
+    // ==========================================
+    async function handleFormSubmission(e) {
       e.preventDefault();
-      const btn = document.getElementById('btnSubmit');
-      const msg = document.getElementById('statusMsg');
-      btn.disabled = true;
-      btn.innerText = "Guardando...";
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const statusBox = document.getElementById('statusNotification');
+      
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Procesando...</span>
+      `;
 
-      const selectedVote = document.querySelector('input[name="calendar_preference"]:checked').value;
+      const selectedCalendarVote = document.querySelector('input[name="calendarVote"]:checked').value;
 
       const payload = {
-        athlete_name: document.getElementById('athlete_name').value.trim() || null,
-        category: document.getElementById('category').value,
-        competition_level: document.getElementById('competition_level').value,
-        school_name: document.getElementById('school_name').value.trim(),
-        school_practice_days: document.getElementById('school_practice_days').value,
-        school_weekday_games: document.getElementById('school_weekday_games').value,
-        school_weekend_tournaments: document.getElementById('school_weekend_tournaments').value,
-        club_practice_days_sep_oct: document.getElementById('club_practice_days_sep_oct').value,
-        same_day_overlap_frequency: document.getElementById('same_day_overlap_frequency').value,
-        calendar_preference: selectedVote,
-        financial_plan_support: document.getElementById('financial_plan_support').value,
-        comments: document.getElementById('comments').value.trim() || null
+        athlete_name: document.getElementById('athleteName').value.trim() || null,
+        category: document.getElementById('athleteCategory').value,
+        competition_level: document.getElementById('athleteDivision').value,
+        school_name: document.getElementById('schoolName').value.trim(),
+        school_practice_days: document.getElementById('schoolPracticeDays').value,
+        school_weekday_games: document.getElementById('schoolWeekdayGames').value,
+        school_weekend_tournaments: document.getElementById('schoolWeekendTournaments').value,
+        club_practice_days_sep_oct: document.getElementById('clubPracticeDays').value,
+        same_day_overlap_frequency: document.getElementById('overlapFrequency').value,
+        calendar_preference: selectedCalendarVote,
+        financial_plan_support: document.getElementById('financialAssessment').value,
+        comments: document.getElementById('observations').value.trim() || null
       };
 
-      const { data, error } = await db.from('survey_responses').insert([payload]);
+      try {
+        const { error } = await supabaseClient.from('survey_responses').insert([payload]);
 
-      btn.disabled = false;
-      btn.innerText = "Enviar Respuesta";
-      msg.classList.remove('hidden');
+        if (error) throw error;
 
-      if (error) {
-        msg.className = "text-center text-sm p-4 rounded-xl bg-red-950 text-red-300 border border-red-800";
-        msg.innerText = "Error: " + error.message;
-      } else {
-        msg.className = "text-center text-sm p-4 rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800";
-        msg.innerText = "¡Muchas gracias! Tu respuesta fue registrada correctamente.";
-        document.getElementById('surveyForm').reset();
+        statusBox.className = "text-xs sm:text-sm p-4 rounded-xl text-center font-medium bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 block";
+        statusBox.innerText = "¡Tu evaluación ha sido registrada exitosamente! Muchas gracias por contribuir al estudio.";
+        document.getElementById('evaluationForm').reset();
+        
+        // Redirección visual al dashboard tras 2.2 segundos
+        setTimeout(() => {
+          statusBox.classList.add('hidden');
+          switchView('dashboard');
+        }, 2200);
+
+      } catch (err) {
+        statusBox.className = "text-xs sm:text-sm p-4 rounded-xl text-center font-medium bg-rose-950/80 border border-rose-500/40 text-rose-300 block";
+        statusBox.innerText = `Error al registrar: ${err.message || 'Verifica la conexión a internet.'}`;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = `<span>Registrar Evaluación en el Estudio</span>`;
       }
     }
 
-    async function loadDashboardMetrics() {
-      const { data, error } = await db.from('survey_responses').select('*');
-      if (error || !data) return;
+    // ==========================================
+    // AGREGACIÓN DE MÉTRICAS Y VISUALIZACIÓN
+    // ==========================================
+    async function loadAnalyticsData() {
+      const { data, error } = await supabaseClient
+        .from('survey_responses')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      const tableBody = document.getElementById('recentResponsesBody');
+
+      if (error || !data) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-rose-400">Error al consultar registros de Supabase.</td></tr>`;
+        return;
+      }
 
       const total = data.length;
-      const novCount = data.filter(r => r.calendar_preference === 'modelo_noviembre').length;
+      if (total === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-slate-500">Aún no hay respuestas capturadas.</td></tr>`;
+        return;
+      }
+
+      // KPIs
+      const novCount = data.filter(d => d.calendar_preference === 'modelo_noviembre').length;
       const tradCount = total - novCount;
 
-      const finPos = data.filter(r => r.financial_plan_support === 'positiva').length;
-      const finNeg = data.filter(r => r.financial_plan_support === 'negativa').length;
-      const finInd = total - (finPos + finNeg);
+      const highOverlapCount = data.filter(d => d.same_day_overlap_frequency === '2+ veces/sem').length;
+      const finPositiveCount = data.filter(d => d.financial_plan_support === 'positiva').length;
 
-      document.getElementById('kpiTotal').innerText = total;
-      document.getElementById('kpiSupport').innerText = total > 0 ? `${Math.round((novCount / total) * 100)}%` : '0%';
+      const openCount = data.filter(d => d.competition_level === 'Open').length;
+      const clubDivCount = total - openCount;
 
-      // Gráfico Modelo
-      const ctxVote = document.getElementById('chartVotes').getContext('2d');
-      if (voteChart) voteChart.destroy();
-      voteChart = new Chart(ctxVote, {
+      document.getElementById('kpiSamples').innerText = total;
+      document.getElementById('kpiSupportNov').innerText = `${Math.round((novCount / total) * 100)}%`;
+      document.getElementById('kpiHighOverlap').innerText = `${Math.round((highOverlapCount / total) * 100)}%`;
+      document.getElementById('kpiFinanceSupport').innerText = `${Math.round((finPositiveCount / total) * 100)}%`;
+
+      // Render Charts con Chart.js
+      renderCalendarChart(novCount, tradCount);
+      renderDivisionChart(openCount, clubDivCount);
+
+      // Render Tabla Reciente (Últimos 10 registros sanitizados)
+      const recent = data.slice(0, 10);
+      tableBody.innerHTML = recent.map(r => `
+        <tr class="hover:bg-slate-800/30 transition-colors">
+          <td class="py-3 px-4">
+            <div class="font-medium text-white">${escapeHtml(r.athlete_name || 'Anónimo')}</div>
+            <div class="text-[11px] text-slate-500">${escapeHtml(r.school_name)}</div>
+          </td>
+          <td class="py-3 px-4 font-mono">
+            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold ${r.competition_level === 'Open' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-slate-800 text-slate-400'}">
+              ${escapeHtml(r.competition_level)}
+            </span>
+          </td>
+          <td class="py-3 px-4 font-mono">
+            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold ${r.same_day_overlap_frequency === '2+ veces/sem' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-slate-800 text-slate-400'}">
+              ${escapeHtml(r.same_day_overlap_frequency)}
+            </span>
+          </td>
+          <td class="py-3 px-4">
+            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${r.calendar_preference === 'modelo_noviembre' ? 'bg-brand-500/10 text-brand-300 border border-brand-500/20' : 'bg-slate-800 text-slate-400'}">
+              ${r.calendar_preference === 'modelo_noviembre' ? 'Noviembre' : 'Tradicional'}
+            </span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderCalendarChart(novCount, tradCount) {
+      const ctx = document.getElementById('chartCalendar').getContext('2d');
+      if (calendarChartInstance) calendarChartInstance.destroy();
+
+      calendarChartInstance = new Chart(ctx, {
         type: 'doughnut',
         data: {
           labels: ['Modelo Noviembre', 'Modelo Tradicional'],
@@ -329,29 +573,58 @@
         },
         options: {
           responsive: true,
-          plugins: { legend: { labels: { color: '#94a3b8' } } }
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#94a3b8', font: { family: 'Inter', size: 11 } }
+            }
+          },
+          cutout: '70%'
         }
       });
+    }
 
-      // Gráfico Finanzas
-      const ctxFinance = document.getElementById('chartFinance').getContext('2d');
-      if (financeChart) financeChart.destroy();
-      financeChart = new Chart(ctxFinance, {
+    function renderDivisionChart(openCount, clubCount) {
+      const ctx = document.getElementById('chartDivision').getContext('2d');
+      if (divisionChartInstance) divisionChartInstance.destroy();
+
+      divisionChartInstance = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['Positiva (Alivio)', 'Negativa (Mantener)', 'Indiferente'],
+          labels: ['División Open', 'División Club'],
           datasets: [{
-            data: [finPos, finNeg, finInd],
-            backgroundColor: ['#10b981', '#ef4444', '#64748b'],
+            data: [openCount, clubCount],
+            backgroundColor: ['#f59e0b', '#3b82f6'],
             borderWidth: 0
           }]
         },
         options: {
           responsive: true,
-          plugins: { legend: { labels: { color: '#94a3b8' } } }
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#94a3b8', font: { family: 'Inter', size: 11 } }
+            }
+          },
+          cutout: '70%'
         }
       });
     }
+
+    // ==========================================
+    // SUSCRIPCIÓN EN TIEMPO REAL (SUPABASE REALTIME)
+    // ==========================================
+    supabaseClient
+      .channel('public:survey_responses')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'survey_responses' }, () => {
+        // Si el dashboard está visible, actualizar analítica en vivo
+        if (!document.getElementById('dashboardContainer').classList.contains('hidden')) {
+          loadAnalyticsData();
+        }
+      })
+      .subscribe();
   </script>
 </body>
 </html>
