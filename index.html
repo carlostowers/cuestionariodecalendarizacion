@@ -3,37 +3,354 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Estudio de Carga Atlética · Voleibol PR</title>
+  <title>Estudio de Carga Atlética · Voleibol Juvenil</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Chart.js para visualizaciones -->
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased p-4 md:p-8">
 
-  <div class="max-w-3xl mx-auto space-y-6">
+  <div class="max-w-2xl mx-auto space-y-6">
 
-    <!-- Navegación simple entre Vista de Encuesta y Vista de Resultados -->
+    <!-- Navegación Encuesta / Métricas -->
     <header class="flex justify-between items-center border-b border-slate-800 pb-4">
       <div>
-        <h1 class="text-xl md:text-2xl font-black text-white">Estudio de Carga Escolar vs. Club</h1>
-        <p class="text-xs text-slate-400">Investigación Operativa · Voleibol Juvenil Puerto Rico</p>
+        <h1 class="text-xl md:text-2xl font-black text-white tracking-tight">Estudio Operativo de Carga</h1>
+        <p class="text-xs text-slate-400">Voleibol Juvenil · Puerto Rico</p>
       </div>
       <div class="flex gap-2">
-        <button id="btnTabSurvey" onclick="showTab('survey')" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg">Encuesta</button>
-        <button id="btnTabDashboard" onclick="showTab('dashboard')" class="bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-slate-700">Resultados</button>
+        <button id="btnTabSurvey" onclick="showTab('survey')" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg transition">Encuesta</button>
+        <button id="btnTabDashboard" onclick="showTab('dashboard')" class="bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-slate-700 transition">Métricas</button>
       </div>
     </header>
 
-    <!-- PESTAÑA 1: FORMULARIO ATLETA / PADRE -->
+    <!-- PESTAÑA: ENCUESTA -->
     <section id="viewSurvey" class="space-y-6">
       <form id="surveyForm" onsubmit="submitSurvey(event)" class="space-y-6">
         
+        <!-- SECCIÓN 1: PERFIL DEL ATLETA -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h2 class="text-xs font-bold text-blue-400 uppercase tracking-wider">1. Perfil del Atleta</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div>
+              <label class="block text-slate-300 mb-1 font-medium">Nombre (Opcional)</label>
+              <input type="text" id="athlete_name" placeholder="Tu nombre" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500" />
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1 font-medium">Categoría</label>
+              <select id="category" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                <option value="10U-12U">10U - 12U</option>
+                <option value="13U-14U">13U - 14U</option>
+                <option value="15U-16U" selected>15U - 16U</option>
+                <option value="17U-18U">17U - 18U</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1 font-medium">División / Nivel de Juego en Club</label>
+              <select id="competition_level" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                <option value="Open">División Open (Nivel élite)</option>
+                <option value="Club">División Club</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1 font-medium">Escuela o Colegio *</label>
+              <input type="text" id="school_name" required placeholder="Nombre de tu institución" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500" />
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: TEMPORADA ESCOLAR (AGOSTO - OCTUBRE) -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 text-sm">
+          <h2 class="text-xs font-bold text-amber-400 uppercase tracking-wider">2. Carga en Temporada Escolar (Ago - Oct)</h2>
+          
+          <div class="space-y-3">
+            <div>
+              <label class="block text-slate-300 mb-1">¿Cuántos días a la semana entrenas con tu equipo escolar?</label>
+              <select id="school_practice_days" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500">
+                <option value="1-2 días">1 a 2 días</option>
+                <option value="3-4 días" selected>3 a 4 días</option>
+                <option value="5+ días">5 o más días</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 mb-1">¿Cuántos partidos escolares juegas en promedio entre semana (Lun-Jue)?</label>
+              <select id="school_weekday_games" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500">
+                <option value="1 partido">1 partido</option>
+                <option value="2 partidos" selected>2 partidos</option>
+                <option value="3+ partidos">3 o más partidos</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 mb-1">¿Cuántos fines de semana al mes juegas torneos o copas escolares (Vie-Dom)?</label>
+              <select id="school_weekend_tournaments" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500">
+                <option value="1 fin de semana">1 fin de semana al mes</option>
+                <option value="2 fines de semana" selected>2 fines de semana al mes</option>
+                <option value="3-4 fines de semana">3 a 4 fines de semana (casi todos)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 mb-1">Nivel de exigencia y desgaste físico en la temporada escolar:</label>
+              <select id="school_physical_strain" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-500">
+                <option value="Baja">Baja: Me siento fresco/a y listo/a para otra práctica</option>
+                <option value="Moderada" selected>Moderada: Termino cansado/a pero puedo entrenar club</option>
+                <option value="Alta">Alta / Extrema: Termino extenuado/a con los juegos y copas</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 3: COMPROMISOS DE CLUB EN SEPTIEMBRE Y OCTUBRE -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 text-sm">
+          <h2 class="text-xs font-bold text-rose-400 uppercase tracking-wider">3. Compromisos de Club en Septiembre y Octubre</h2>
+          
+          <div class="space-y-3">
+            <div>
+              <label class="block text-slate-300 mb-1">¿Cuántos días a la semana vas a prácticas de club durante septiembre y octubre?</label>
+              <select id="club_practice_days_sep_oct" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500">
+                <option value="No practico">No practico en club durante esos meses</option>
+                <option value="1 día">1 día por semana</option>
+                <option value="2 días" selected>2 días por semana</option>
+                <option value="3+ días">3 o más días por semana</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 mb-1">¿Con qué frecuencia coincides en tener juego/práctica escolar y práctica de club el mismo día?</label>
+              <select id="same_day_overlap_frequency" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500">
+                <option value="Nunca">Nunca</option>
+                <option value="1 vez/sem">1 vez por semana</option>
+                <option value="2+ veces/sem" selected>2 o más veces por semana</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-slate-300 mb-1">Cuando tienes práctica de club el mismo día de juego o torneo escolar:</label>
+              <select id="performance_impact_overlap" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-rose-500">
+                <option value="Rindo 100%">Rindo al 100% en ambas sesiones</option>
+                <option value="Baja rendimiento" selected>Mi rendimiento baja notablemente por el cansancio acumulado</option>
+                <option value="Prefiero faltar">Prefiero faltar a la práctica de club para no sobrecargarme</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 4: MODELO DE CALENDARIO -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h2 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">4. Propuesta de Calendario Deportivo</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <label class="flex flex-col p-4 rounded-xl border border-slate-800 bg-slate-950 cursor-pointer has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/20">
+              <div class="flex items-center gap-2 font-bold text-slate-200">
+                <input type="radio" name="calendar_preference" value="modelo_noviembre" checked class="accent-indigo-500" />
+                Opción A: Modelo Noviembre
+              </div>
+              <p class="text-slate-400 mt-2 leading-relaxed">
+                Tryouts a inicios de agosto. Septiembre y octubre dedicados de lleno a tu escuela/colegio (sin prácticas obligatorias de equipo de club o solo fundamentos técnicos 1 vez por semana). Las prácticas tácticas formales de club inician en noviembre al terminar las copas escolares.
+              </p>
+            </label>
+
+            <label class="flex flex-col p-4 rounded-xl border border-slate-800 bg-slate-950 cursor-pointer has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/20">
+              <div class="flex items-center gap-2 font-bold text-slate-200">
+                <input type="radio" name="calendar_preference" value="modelo_tradicional" class="accent-indigo-500" />
+                Opción B: Modelo Tradicional
+              </div>
+              <p class="text-slate-400 mt-2 leading-relaxed">
+                Prácticas regulares de equipo de club (2 a 3 días por semana) activas desde septiembre, corriendo simultáneamente con el torneo y las copas escolares.
+              </p>
+            </label>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 5: REESTRUCTURACIÓN FINANCIERA -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h2 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">5. Esquema Económico para las Familias</h2>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-slate-300 leading-relaxed">
+            <p>
+              <strong>Propuesta:</strong> En septiembre y octubre las familias <strong>no pagan prácticas individuales a los coaches ni mensualidad deportiva al club</strong>. Esos meses se usan solo para gastos administrativos iniciales (matrícula, uniformes, depósitos de viaje). El valor del trabajo técnico no se pierde: se distribuye de forma prorrateada en las cuotas habituales de competencia (noviembre a junio).
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-xs font-medium mb-1">¿Cómo evalúas esta alternativa económica?</label>
+            <select id="financial_plan_support" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+              <option value="positiva" selected>Positiva: Alivia el bolsillo al inicio de clases y quita el pago suelto por práctica</option>
+              <option value="negativa">Negativa: Prefiero pagar las prácticas sueltas en sep-oct y mantener la cuota regular de nov-jun</option>
+              <option value="indiferente">Indiferente</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-xs font-medium mb-1">Comentarios u observaciones adicionales:</label>
+            <textarea id="comments" rows="2" placeholder="Tus sugerencias o comentarios..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"></textarea>
+          </div>
+        </div>
+
+        <button id="btnSubmit" type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl transition">
+          Enviar Respuesta
+        </button>
+        <div id="statusMsg" class="hidden text-center text-sm p-3 rounded-xl"></div>
+      </form>
+    </section>
+
+    <!-- PESTAÑA: MÉTRICAS DIRECTIVAS -->
+    <section id="viewDashboard" class="hidden space-y-6">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-center">
+          <div class="text-xs text-slate-400 font-bold uppercase">Atletas Registrados</div>
+          <div id="kpiTotal" class="text-3xl font-black text-white mt-1">0</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-center">
+          <div class="text-xs text-slate-400 font-bold uppercase">Apoyo Modelo Noviembre</div>
+          <div id="kpiSupport" class="text-3xl font-black text-indigo-400 mt-1">0%</div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
+        <h3 class="text-xs font-bold text-slate-300 uppercase mb-4 text-center">Preferencia de Modelo Deportivo</h3>
+        <div class="max-w-xs mx-auto">
+          <canvas id="chartVotes"></canvas>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl">
+        <h3 class="text-xs font-bold text-slate-300 uppercase mb-4 text-center">Aceptación del Esquema Financiero</h3>
+        <div class="max-w-xs mx-auto">
+          <canvas id="chartFinance"></canvas>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // CREDENCIALES DE TU PROYECTO SUPABASE
+    const SUPABASE_URL = "https://TU-PROYECTO.supabase.co";
+    const SUPABASE_KEY = "TU-ANON-KEY";
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let voteChart = null;
+    let financeChart = null;
+
+    function showTab(tab) {
+      if (tab === 'survey') {
+        document.getElementById('viewSurvey').classList.remove('hidden');
+        document.getElementById('viewDashboard').classList.add('hidden');
+        document.getElementById('btnTabSurvey').className = "bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg transition";
+        document.getElementById('btnTabDashboard').className = "bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-slate-700 transition";
+      } else {
+        document.getElementById('viewSurvey').classList.add('hidden');
+        document.getElementById('viewDashboard').classList.remove('hidden');
+        document.getElementById('btnTabDashboard').className = "bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg transition";
+        document.getElementById('btnTabSurvey').className = "bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-slate-700 transition";
+        loadDashboardMetrics();
+      }
+    }
+
+    async function submitSurvey(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmit');
+      const msg = document.getElementById('statusMsg');
+      btn.disabled = true;
+      btn.innerText = "Registrando...";
+
+      const selectedVote = document.querySelector('input[name="calendar_preference"]:checked').value;
+
+      const payload = {
+        athlete_name: document.getElementById('athlete_name').value.trim() || null,
+        category: document.getElementById('category').value,
+        competition_level: document.getElementById('competition_level').value,
+        school_name: document.getElementById('school_name').value.trim(),
+        school_practice_days: document.getElementById('school_practice_days').value,
+        school_weekday_games: document.getElementById('school_weekday_games').value,
+        school_weekend_tournaments: document.getElementById('school_weekend_tournaments').value,
+        school_physical_strain: document.getElementById('school_physical_strain').value,
+        club_practice_days_sep_oct: document.getElementById('club_practice_days_sep_oct').value,
+        same_day_overlap_frequency: document.getElementById('same_day_overlap_frequency').value,
+        performance_impact_overlap: document.getElementById('performance_impact_overlap').value,
+        calendar_preference: selectedVote,
+        financial_plan_support: document.getElementById('financial_plan_support').value,
+        comments: document.getElementById('comments').value.trim() || null
+      };
+
+      const { data, error } = await db.from('survey_responses').insert([payload]);
+
+      btn.disabled = false;
+      btn.innerText = "Enviar Respuesta";
+      msg.classList.remove('hidden');
+
+      if (error) {
+        msg.className = "text-center text-sm p-3 rounded-xl bg-red-950 text-red-300 border border-red-800";
+        msg.innerText = "Error al guardar: " + error.message;
+      } else {
+        msg.className = "text-center text-sm p-3 rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800";
+        msg.innerText = "¡Tu respuesta ha sido registrada exitosamente!";
+        document.getElementById('surveyForm').reset();
+      }
+    }
+
+    async function loadDashboardMetrics() {
+      const { data, error } = await db.from('survey_responses').select('*');
+      if (error || !data) return;
+
+      const total = data.length;
+      const novCount = data.filter(r => r.calendar_preference === 'modelo_noviembre').length;
+      const tradCount = total - novCount;
+
+      const finPos = data.filter(r => r.financial_plan_support === 'positiva').length;
+      const finNeg = data.filter(r => r.financial_plan_support === 'negativa').length;
+      const finInd = total - (finPos + finNeg);
+
+      document.getElementById('kpiTotal').innerText = total;
+      document.getElementById('kpiSupport').innerText = total > 0 ? `${Math.round((novCount / total) * 100)}%` : '0%';
+
+      // Gráfico de Modelos
+      const ctxVote = document.getElementById('chartVotes').getContext('2d');
+      if (voteChart) voteChart.destroy();
+      voteChart = new Chart(ctxVote, {
+        type: 'doughnut',
+        data: {
+          labels: ['Modelo Noviembre', 'Modelo Tradicional'],
+          datasets: [{
+            data: [novCount, tradCount],
+            backgroundColor: ['#6366f1', '#f43f5e'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { labels: { color: '#94a3b8' } } }
+        }
+      });
+
+      // Gráfico de Finanzas
+      const ctxFinance = document.getElementById('chartFinance').getContext('2d');
+      if (financeChart) financeChart.destroy();
+      financeChart = new Chart(ctxFinance, {
+        type: 'doughnut',
+        data: {
+          labels: ['Positiva (Alivio)', 'Negativa (Mantener)', 'Indiferente'],
+          datasets: [{
+            data: [finPos, finNeg, finInd],
+            backgroundColor: ['#10b981', '#ef4444', '#64748b'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { labels: { color: '#94a3b8' } } }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
         <!-- 1. Perfil -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
           <h2 class="text-sm font-bold text-blue-400 uppercase tracking-wider">1. Perfil del Atleta</h2>
