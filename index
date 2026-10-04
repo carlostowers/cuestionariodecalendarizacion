@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estudio de Carga Atlética · Voleibol PR</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Chart.js para visualizaciones -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased p-4 md:p-8">
+
+  <div class="max-w-3xl mx-auto space-y-6">
+
+    <!-- Navegación simple entre Vista de Encuesta y Vista de Resultados -->
+    <header class="flex justify-between items-center border-b border-slate-800 pb-4">
+      <div>
+        <h1 class="text-xl md:text-2xl font-black text-white">Estudio de Carga Escolar vs. Club</h1>
+        <p class="text-xs text-slate-400">Investigación Operativa · Voleibol Juvenil Puerto Rico</p>
+      </div>
+      <div class="flex gap-2">
+        <button id="btnTabSurvey" onclick="showTab('survey')" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg">Encuesta</button>
+        <button id="btnTabDashboard" onclick="showTab('dashboard')" class="bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-slate-700">Resultados</button>
+      </div>
+    </header>
+
+    <!-- PESTAÑA 1: FORMULARIO ATLETA / PADRE -->
+    <section id="viewSurvey" class="space-y-6">
+      <form id="surveyForm" onsubmit="submitSurvey(event)" class="space-y-6">
+        
+        <!-- 1. Perfil -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h2 class="text-sm font-bold text-blue-400 uppercase tracking-wider">1. Perfil del Atleta</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div>
+              <label class="block text-slate-300 mb-1">Nombre (Opcional)</label>
+              <input type="text" id="athlete_name" placeholder="Ej. Atleta Vaqueros" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500" />
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1">Categoría</label>
+              <select id="category" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                <option value="10U-12U">10U - 12U</option>
+                <option value="13U-14U">13U - 14U</option>
+                <option value="15U-16U" selected>15U - 16U</option>
+                <option value="17U-18U">17U - 18U</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1">Colegio / Escuela *</label>
+              <input type="text" id="school_name" required placeholder="Ej. Marista, San Ignacio, etc." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500" />
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1">Liga Escolar</label>
+              <select id="school_league" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+                <option value="PRHSAA">PRHSAA</option>
+                <option value="LACC">LACC</option>
+                <option value="Independiente">Independiente / Otra Liga</option>
+                <option value="No compite">No compite a nivel escolar</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Carga Escolar y Solapamiento -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4 text-sm">
+          <h2 class="text-sm font-bold text-amber-400 uppercase tracking-wider">2. Carga Física y Solapamiento</h2>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-slate-300 mb-1">Días de práctica escolar / semana: <span id="val_school_days" class="text-amber-400 font-bold">3</span></label>
+              <input type="range" id="school_practice_days" min="0" max="7" value="3" oninput="document.getElementById('val_school_days').innerText=this.value" class="w-full accent-amber-500" />
+            </div>
+            <div>
+              <label class="block text-slate-300 mb-1">Días con doble práctica (Colegio + Club): <span id="val_double_days" class="text-rose-400 font-bold">2</span></label>
+              <input type="range" id="double_practice_days" min="0" max="7" value="2" oninput="document.getElementById('val_double_days').innerText=this.value" class="w-full accent-rose-500" />
+            </div>
+          </div>
+
+          <div class="border-t border-slate-800 pt-3">
+            <label class="block text-slate-300 mb-2 font-medium">Molestias o síntomas recurrentes:</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <label class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800"><input type="checkbox" name="symptom" value="rodilla" class="accent-rose-500" /> Tendinitis Rotuliana (Rodilla)</label>
+              <label class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800"><input type="checkbox" name="symptom" value="hombro" class="accent-rose-500" /> Dolor de Hombro / Manguito</label>
+              <label class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800"><input type="checkbox" name="symptom" value="lumbar" class="accent-rose-500" /> Espalda Baja / Lumbar</label>
+              <label class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800"><input type="checkbox" name="symptom" value="sueno" class="accent-rose-500" /> Déficit Severo de Sueño</label>
+              <label class="flex items-center gap-2 bg-slate-950 p-2.5 rounded-lg border border-slate-800"><input type="checkbox" name="symptom" value="agotamiento" class="accent-rose-500" /> Fatiga Mental / Agotamiento</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Simulador Financiero Escalonado -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h2 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">3. Simulador de Cuotas Escalonadas</h2>
+          <div>
+            <label class="block text-xs text-slate-300 mb-1">Costo total temporada estimada: <strong id="lblTuition" class="text-white font-mono text-sm">$1,800</strong></label>
+            <input type="range" id="tuitionRange" min="900" max="3600" step="100" value="1800" oninput="updateFinancialSim(this.value)" class="w-full accent-emerald-500" />
+          </div>
+          <div class="grid grid-cols-2 gap-3 text-center">
+            <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl">
+              <div class="text-[10px] text-slate-400 font-bold uppercase">Tradicional (6 meses)</div>
+              <div id="costTrad" class="text-lg font-black text-rose-400 font-mono mt-1">$300/mes</div>
+            </div>
+            <div class="bg-emerald-950/30 border border-emerald-500/30 p-3 rounded-xl">
+              <div class="text-[10px] text-emerald-400 font-bold uppercase">Modelo Noviembre (9 meses)</div>
+              <div id="costNov" class="text-lg font-black text-emerald-400 font-mono mt-1">$200/mes</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Votación de Reestructuración -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+          <h2 class="text-sm font-bold text-indigo-400 uppercase tracking-wider">4. Decisión de Calendario</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <label class="flex flex-col p-3 rounded-xl border border-slate-800 bg-slate-950 cursor-pointer has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/20">
+              <div class="flex items-center gap-2 font-bold text-slate-200">
+                <input type="radio" name="calendar_vote" value="modelo_noviembre" checked class="accent-indigo-500" />
+                Modelo Noviembre
+              </div>
+              <span class="text-slate-400 mt-1">Ago-Oct con clínicas técnicas y acondicionamiento leve. Torneos oficiales de club inician en noviembre.</span>
+            </label>
+
+            <label class="flex flex-col p-3 rounded-xl border border-slate-800 bg-slate-950 cursor-pointer has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/20">
+              <div class="flex items-center gap-2 font-bold text-slate-200">
+                <input type="radio" name="calendar_vote" value="modelo_tradicional" class="accent-indigo-500" />
+                Modelo Tradicional
+              </div>
+              <span class="text-slate-400 mt-1">Prácticas intensivas de 3-4 días y torneos simultáneos con el semestre escolar desde agosto.</span>
+            </label>
+          </div>
+
+          <div class="pt-2">
+            <label class="block text-slate-300 text-xs mb-1">Comentarios u observaciones:</label>
+            <textarea id="comments" rows="2" placeholder="Opcional..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500"></textarea>
+          </div>
+        </div>
+
+        <!-- Botón de Envío -->
+        <button id="btnSubmit" type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition">
+          Enviar Datos
+        </button>
+        <div id="statusMsg" class="hidden text-center text-sm p-3 rounded-xl"></div>
+      </form>
+    </section>
+
+    <!-- PESTAÑA 2: RESULTADOS Y DIRECTIVA -->
+    <section id="viewDashboard" class="hidden space-y-6">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-center">
+          <div class="text-xs text-slate-400 font-bold uppercase">Total Encuestas</div>
+          <div id="kpiTotal" class="text-3xl font-black text-white mt-1">0</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl text-center">
+          <div class="text-xs text-slate-400 font-bold uppercase">Apoyo Modelo Nov.</div>
+          <div id="kpiSupport" class="text-3xl font-black text-emerald-400 mt-1">0%</div>
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+        <h3 class="text-xs font-bold text-slate-300 uppercase mb-3">Distribución de Votos</h3>
+        <div class="max-w-xs mx-auto">
+          <canvas id="chartVotes"></canvas>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // 1. REEMPLAZA CON TUS CREDENCIALES DE SUPABASE
+    const SUPABASE_URL = "https://TU-PROYECTO.supabase.co";
+    const SUPABASE_KEY = "TU-ANON-KEY-AQUI";
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let voteChart = null;
+
+    function showTab(tab) {
+      if (tab === 'survey') {
+        document.getElementById('viewSurvey').classList.remove('hidden');
+        document.getElementById('viewDashboard').classList.add('hidden');
+        document.getElementById('btnTabSurvey').className = "bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg";
+        document.getElementById('btnTabDashboard').className = "bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-slate-700";
+      } else {
+        document.getElementById('viewSurvey').classList.add('hidden');
+        document.getElementById('viewDashboard').classList.remove('hidden');
+        document.getElementById('btnTabDashboard').className = "bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-lg";
+        document.getElementById('btnTabSurvey').className = "bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-slate-700";
+        loadDashboardMetrics();
+      }
+    }
+
+    function updateFinancialSim(val) {
+      document.getElementById('lblTuition').innerText = `$${Number(val).toLocaleString()}`;
+      document.getElementById('costTrad').innerText = `$${Math.round(val / 6)}/mes`;
+      document.getElementById('costNov').innerText = `$${Math.round(val / 9)}/mes`;
+    }
+
+    async function submitSurvey(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmit');
+      const msg = document.getElementById('statusMsg');
+      btn.disabled = true;
+      btn.innerText = "Guardando...";
+
+      const selectedSymptoms = Array.from(document.querySelectorAll('input[name="symptom"]:checked')).map(c => c.value);
+      const selectedVote = document.querySelector('input[name="calendar_vote"]:checked').value;
+
+      const payload = {
+        athlete_name: document.getElementById('athlete_name').value || null,
+        category: document.getElementById('category').value,
+        school_name: document.getElementById('school_name').value,
+        school_league: document.getElementById('school_league').value,
+        school_practice_days_per_week: parseInt(document.getElementById('school_practice_days').value),
+        school_weekday_games: 2,
+        school_weekend_tournaments_per_month: 2,
+        perceived_fatigue_level: 4,
+        academic_sleep_impact: 4,
+        club_practice_days_per_week: 3,
+        double_practice_days_per_week: parseInt(document.getElementById('double_practice_days').value),
+        weekend_tournament_overlap: true,
+        symptoms: selectedSymptoms,
+        calendar_vote: selectedVote,
+        comments: document.getElementById('comments').value || null
+      };
+
+      const { data, error } = await db.from('survey_responses').insert([payload]);
+
+      btn.disabled = false;
+      btn.innerText = "Enviar Datos";
+      msg.classList.remove('hidden');
+
+      if (error) {
+        msg.className = "text-center text-sm p-3 rounded-xl bg-red-950 text-red-300 border border-red-800";
+        msg.innerText = "Error: " + error.message;
+      } else {
+        msg.className = "text-center text-sm p-3 rounded-xl bg-emerald-950 text-emerald-300 border border-emerald-800";
+        msg.innerText = "¡Encuesta registrada con éxito! Puedes consultar la pestaña de Resultados.";
+        document.getElementById('surveyForm').reset();
+      }
+    }
+
+    async function loadDashboardMetrics() {
+      const { data, error } = await db.from('survey_responses').select('*');
+      if (error || !data) return;
+
+      const total = data.length;
+      const novCount = data.filter(r => r.calendar_vote === 'modelo_noviembre').length;
+      const tradCount = total - novCount;
+
+      document.getElementById('kpiTotal').innerText = total;
+      document.getElementById('kpiSupport').innerText = total > 0 ? `${Math.round((novCount / total) * 100)}%` : '0%';
+
+      const ctx = document.getElementById('chartVotes').getContext('2d');
+      if (voteChart) voteChart.destroy();
+
+      voteChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Modelo Noviembre', 'Modelo Tradicional'],
+          datasets: [{
+            data: [novCount, tradCount],
+            backgroundColor: ['#6366f1', '#f43f5e'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { labels: { color: '#94a3b8' } }
+          }
+        }
+      });
+    }
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>
