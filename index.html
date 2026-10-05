@@ -388,7 +388,7 @@
           </div>
           <div class="facts">
             <div class="fact"><b>07</b><span class="t-label">Secciones</span></div>
-            <div class="fact"><b>20</b><span class="t-label">Requeridas</span></div>
+            <div class="fact"><b>22</b><span class="t-label">Requeridas</span></div>
             <div class="fact"><b>3&#8239;min</b><span class="t-label">Duración</span></div>
           </div>
           <button type="button" id="btnStart" class="btn btn-primary btn-block">
@@ -411,6 +411,12 @@
             <label for="athleteName" class="q-label t-q">Nombre completo <span class="opt-tag">(Opcional)</span></label>
             <input type="text" id="athleteName" maxlength="80" placeholder="Tu nombre" class="field" autocomplete="off" enterkeyhint="next" />
           </div>
+
+          <fieldset class="q" data-q="branch">
+            <legend class="q-label t-q">Rama *</legend>
+            <div class="grid cols-2" id="grp-branch"></div>
+            <p class="q-err">Selecciona tu rama.</p>
+          </fieldset>
 
           <fieldset class="q" data-q="category">
             <legend class="q-label t-q">Categoría de edad *</legend>
@@ -518,6 +524,12 @@
           <fieldset class="q" data-q="wants_club_break">
             <legend class="q-label statement">Me gustaría tener un receso del voleibol de clubes en los 2 meses de septiembre y octubre. *</legend>
             <div class="grid cols-3" id="grp-wants_club_break"></div>
+            <p class="q-err">Selecciona una opción.</p>
+          </fieldset>
+
+          <fieldset class="q" data-q="injury_risk">
+            <legend class="q-label statement">Creo que con la carga que tengo actualmente me puedo lesionar o tener algún desgaste físico. *</legend>
+            <div class="grid cols-3" id="grp-injury_risk"></div>
             <p class="q-err">Selecciona una opción.</p>
           </fieldset>
         </section>
@@ -669,7 +681,7 @@
             <span id="btnLabel">Registrar evaluación</span>
           </button>
         </div>
-        <p id="progressText" class="t-label sr-only">0 de 20 preguntas requeridas</p>
+        <p id="progressText" class="t-label sr-only">0 de 22 preguntas requeridas</p>
       </form>
 
       <!-- Confirmacion -->
@@ -708,6 +720,9 @@
 
       /* Valor exacto en la base de datos -> etiqueta visible */
       const OPTIONS = {
+        branch: [
+          ['Femenino', 'Femenino'], ['Masculino', 'Masculino']
+        ],
         category: [
           ['8U-12U', '8U-12U'], ['13U-14U', '13U-14U'], ['15U-16U', '15U-16U'], ['17U-18U', '17U-18U']
         ],
@@ -742,6 +757,9 @@
           ['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']
         ],
         wants_club_break: [
+          ['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']
+        ],
+        injury_risk: [
           ['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']
         ],
         rest_days: [
@@ -1020,6 +1038,7 @@
 
         const payload = {
           athlete_name: sanitizeText(document.getElementById('athleteName').value, 80, false) || null,
+          branch: pickRadio('branch'),
           category: pickRadio('category'),
           school_name: sanitizeText(document.getElementById('schoolName').value, 120, false),
           school_practice_days: pickRadio('school_practice'),
@@ -1034,6 +1053,7 @@
           can_handle_load: pickRadio('can_handle_load'),
           wants_club_break: pickRadio('wants_club_break'),
           school_league: pickRadio('school_league'),
+          injury_risk_perception: pickRadio('injury_risk'),
           rest_days: pickRadio('rest_days'),
           gym_days: pickRadio('gym_days'),
           monday_after_tournament: pickRadio('monday_after'),
@@ -1186,10 +1206,10 @@
         return UNITS[name] ? p[1] + ' ' + UNITS[name][i] : p[1];
       }
       const REVIEW = [
-        [1, 'Perfil del Atleta', [['Nombre', 'athleteName', true], ['Categoría', 'category'], ['Escuela', 'schoolName'], ['Liga', 'school_league']]],
+        [1, 'Perfil del Atleta', [['Nombre', 'athleteName', true], ['Rama', 'branch'], ['Categoría', 'category'], ['Escuela', 'schoolName'], ['Liga', 'school_league']]],
         [2, 'Calendario Escolar', [['Prácticas/semana', 'school_practice'], ['Partidos Lun - Jue', 'school_games'], ['Fines de semana con torneos', 'school_tournaments'], ['Intensidad', 'school_intensity']]],
         [3, 'Calendario de Club', [['Club', 'clubName'], ['División', 'division'], ['Prácticas/semana', 'club_days'], ['Doble práctica', 'overlap_freq'], ['Intensidad', 'club_intensity']]],
-        [4, 'Percepción de Carga', [['Puedo con la carga sep - oct', 'can_handle_load'], ['Receso de club sep - oct', 'wants_club_break']]],
+        [4, 'Percepción de Carga', [['Puedo con la carga sep - oct', 'can_handle_load'], ['Receso de club sep - oct', 'wants_club_break'], ['Riesgo de lesión o desgaste', 'injury_risk']]],
         [5, 'Recuperación y Bienestar', [['Días de descanso', 'rest_days'], ['Días de gimnasio', 'gym_days'], ['Lunes después de torneo', 'monday_after'], ['Reporte de bienestar', 'wellness_tracking'], ['Señales', 'signals']]],
         [6, 'Propuesta de Calendario', [['Modelo', 'calendar_vote']]]
       ];

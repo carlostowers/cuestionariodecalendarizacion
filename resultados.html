@@ -291,10 +291,16 @@
       </section>
 
       <div>
-        <div class="seg-ctl" role="group" aria-label="Filtrar por modelo de calendario">
+        <span class="t-label num" style="display:flex;margin-bottom:10px">Filtros</span>
+        <div class="seg-ctl" role="group" aria-label="Filtrar por modelo de calendario" data-key="model">
           <button type="button" data-filter="" aria-pressed="true">Todos</button>
           <button type="button" data-filter="modelo_noviembre" aria-pressed="false">Noviembre</button>
           <button type="button" data-filter="modelo_tradicional" aria-pressed="false">Tradicional</button>
+        </div>
+        <div class="seg-ctl" role="group" aria-label="Filtrar por rama" data-key="branch" style="margin-top:8px">
+          <button type="button" data-filter="" aria-pressed="true">Todas</button>
+          <button type="button" data-filter="Femenino" aria-pressed="false">Femenino</button>
+          <button type="button" data-filter="Masculino" aria-pressed="false">Masculino</button>
         </div>
         <p id="filterNote" class="t-label filter-note"></p>
       </div>
@@ -305,7 +311,7 @@
       </section>
 
       <section class="card" aria-labelledby="xTitle">
-        <div class="card-head"><h2 id="xTitle" class="card-title">Doble práctica vs. señales</h2><span class="t-label">Cruce</span></div>
+        <div class="card-head"><h2 id="xTitle" class="card-title">Cruces de carga y señales</h2><span class="t-label">Cruce</span></div>
         <div id="cross"></div>
       </section>
 
@@ -348,16 +354,17 @@
       ];
 
       const COLUMNS = [
-        'created_at', 'athlete_name', 'category', 'school_name', 'school_league',
+        'created_at', 'athlete_name', 'branch', 'category', 'school_name', 'school_league',
         'school_practice_days', 'school_weekday_games', 'school_weekend_tournaments', 'school_intensity',
         'club_name', 'competition_level', 'club_practice_days_sep_oct', 'same_day_overlap_frequency', 'club_intensity',
-        'can_handle_load', 'wants_club_break',
+        'can_handle_load', 'wants_club_break', 'injury_risk_perception',
         'rest_days', 'gym_days', 'monday_after_tournament', 'wellness_tracking'
       ].concat(SIGNALS.map(function (s) { return s[0]; })).concat(['calendar_preference', 'comments']);
 
       /* Valor en base de datos -> etiqueta visible */
       const SECTIONS = [
         ['01', 'Perfil del Atleta', [
+          { col: 'branch', title: 'Rama', opts: [['Femenino', 'Femenino'], ['Masculino', 'Masculino']] },
           { col: 'category', title: 'Categoría de edad', opts: [['8U-12U', '8U-12U'], ['13U-14U', '13U-14U'], ['15U-16U', '15U-16U'], ['17U-18U', '17U-18U']] },
           { col: 'school_league', title: 'Liga escolar', opts: [['PRHSAA', 'PRHSAA'], ['LACC', 'LACC'], ['Otra', 'Otra']] }
         ]],
@@ -375,7 +382,8 @@
         ]],
         ['04', 'Percepción de Carga', [
           { col: 'can_handle_load', title: 'Puedo con la carga en sep - oct', opts: [['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']] },
-          { col: 'wants_club_break', title: 'Quiero receso de club en sep - oct', opts: [['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']] }
+          { col: 'wants_club_break', title: 'Quiero receso de club en sep - oct', opts: [['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']] },
+          { col: 'injury_risk_perception', title: 'Creo que me puedo lesionar o desgastar con mi carga actual', opts: [['De acuerdo', 'De acuerdo'], ['Neutral', 'Neutral'], ['En desacuerdo', 'En desacuerdo']] }
         ]],
         ['05', 'Recuperación y Bienestar', [
           { col: 'rest_days', title: 'Días completos de descanso por semana', opts: [['0 días', '0'], ['1 día', '1'], ['2 días', '2'], ['3+ días', '3+']], warnFirst: true },
@@ -395,7 +403,7 @@
       }
 
       let rows = [];
-      let filter = '';
+      const filters = { model: '', branch: '' };
       let voteChart = null;
       let channel = null;
       let pollTimer = null;
@@ -521,7 +529,9 @@
         return row;
       }
       function subset() {
-        return filter ? rows.filter(function (r) { return r.calendar_preference === filter; }) : rows;
+        return rows.filter(function (r) {
+          return (!filters.model || r.calendar_preference === filters.model) && (!filters.branch || r.branch === filters.branch);
+        });
       }
       function hasSignals(r) { return SIGNALS.some(function (s) { return r[s[0]] !== null && r[s[0]] !== undefined; }); }
       function signalCount(r) { return SIGNALS.reduce(function (a, s) { return a + (r[s[0]] === true ? 1 : 0); }, 0); }
@@ -631,6 +641,11 @@
         host.textContent = '';
         const base = data.filter(hasSignals);
         if (!base.length) { host.appendChild(el('p', 'empty', 'Aún no hay respuestas para esta vista')); return; }
+        const sub0 = el('div', 'sig-head');
+        sub0.style.marginBottom = '12px';
+        sub0.appendChild(el('span', 'qtitle', 'Doble práctica vs. señales'));
+        sub0.appendChild(el('span', 'qmeta', 'escuela + club'));
+        host.appendChild(sub0);
         const table = el('table', 'xtab');
         const thead = el('thead');
         const hr = el('tr');
@@ -660,6 +675,42 @@
         });
         table.appendChild(tbody);
         host.appendChild(table);
+
+        /* Percepción de riesgo vs señales reportadas */
+        const sub = el('div', 'sig-head');
+        sub.style.margin = '26px 0 12px';
+        sub.appendChild(el('span', 'qtitle', 'Percepción de riesgo vs. señales'));
+        sub.appendChild(el('span', 'qmeta', '"Me puedo lesionar o desgastar"'));
+        host.appendChild(sub);
+        const t2 = el('table', 'xtab');
+        const h2 = el('thead');
+        const hr2 = el('tr');
+        ['Respuesta', 'Atletas', 'Prom. señales', 'Con 3+'].forEach(function (h) { hr2.appendChild(el('th', '', h)); });
+        h2.appendChild(hr2);
+        t2.appendChild(h2);
+        const b2 = el('tbody');
+        ['De acuerdo', 'Neutral', 'En desacuerdo'].forEach(function (v) {
+          const g = base.filter(function (r) { return r.injury_risk_perception === v; });
+          const tr = el('tr');
+          tr.appendChild(el('td', '', v));
+          tr.appendChild(el('td', 'mono', String(g.length)));
+          if (!g.length) {
+            tr.appendChild(el('td', 'mono', '—'));
+            tr.appendChild(el('td', 'mono', '—'));
+          } else {
+            const avg = g.reduce(function (a, r) { return a + signalCount(r); }, 0) / g.length;
+            const hi = pct(g.filter(function (r) { return signalCount(r) >= 3; }).length, g.length);
+            tr.appendChild(el('td', 'mono', avg.toFixed(1)));
+            const td = el('td', 'mono');
+            const chip = el('span', 'heat', hi + '%');
+            chip.style.background = 'rgba(255,107,129,' + (0.08 + hi / 100 * 0.42).toFixed(2) + ')';
+            td.appendChild(chip);
+            tr.appendChild(td);
+          }
+          b2.appendChild(tr);
+        });
+        t2.appendChild(b2);
+        host.appendChild(t2);
       }
 
       /* ---------- Desglose por sección ---------- */
@@ -724,7 +775,7 @@
 
       function renderFiltered() {
         const data = subset();
-        $('filterNote').textContent = filter ? data.length + ' de ' + rows.length + ' respuestas' : '';
+        $('filterNote').textContent = (filters.model || filters.branch) ? data.length + ' de ' + rows.length + ' respuestas' : '';
         renderSignals(data);
         renderCross(data);
         renderBreakdowns(data);
@@ -741,11 +792,13 @@
         renderFiltered();
       }
 
-      document.querySelectorAll('.seg-ctl button').forEach(function (b) {
-        b.addEventListener('click', function () {
-          filter = b.dataset.filter;
-          document.querySelectorAll('.seg-ctl button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-          renderFiltered();
+      document.querySelectorAll('.seg-ctl').forEach(function (grp) {
+        grp.querySelectorAll('button').forEach(function (b) {
+          b.addEventListener('click', function () {
+            filters[grp.dataset.key] = b.dataset.filter;
+            grp.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+            renderFiltered();
+          });
         });
       });
 
