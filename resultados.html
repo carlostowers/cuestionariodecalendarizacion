@@ -208,8 +208,11 @@
     .tag.acc { border-color: var(--acc-line); color: var(--acc); }
     .c-text { margin: 0; font-size: 14px; line-height: 21px; color: var(--tx2); white-space: pre-line; overflow-wrap: anywhere; }
 
-    footer { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; padding: 28px 20px calc(28px + var(--safe-b)); display: flex; justify-content: space-between; align-items: center; font: 500 11px/14px var(--mono); color: var(--tx3); letter-spacing: .04em; }
+    footer { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; padding: 28px 20px calc(28px + var(--safe-b)); display: grid; gap: 22px; font: 500 11px/14px var(--mono); color: var(--tx3); letter-spacing: .04em; }
+    .foot-row { display: flex; justify-content: space-between; align-items: center; }
     footer a { padding: 14px 0 14px 14px; margin: -14px 0; }
+    .credit { display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .credit-mark { width: 80px; height: auto; display: block; flex: none; }
 
     @media (min-width: 720px) { .shell { padding-top: 48px; } .t-display { font-size: 40px; line-height: 44px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
@@ -328,8 +331,11 @@
   </div>
 
   <footer>
-    <span>MOVE · Estudio de calendarización</span>
-    <a href="./">Volver al cuestionario</a>
+    <div class="foot-row">
+      <span>MOVE · Estudio de calendarización</span>
+      <a href="./">Volver al cuestionario</a>
+    </div>
+    <div class="credit"><span>Desarrollado por</span><svg class="credit-mark" viewBox="0 -43 436 143" role="img" aria-label="voleii" xmlns="http://www.w3.org/2000/svg"><polygon points="0,0 24,0 48,68 72,0 96,0 60,100 36,100" fill="#F2EFE8"/><circle cx="160" cy="50" r="39" fill="none" stroke="#F2EFE8" stroke-width="22"/><rect x="224" y="-40" width="22" height="140" fill="#F2EFE8"/><path d="M349 50 A39 39 0 1 0 337.6 77.6" fill="none" stroke="#F2EFE8" stroke-width="22"/><rect x="262" y="41" width="98" height="18" fill="#F2EFE8"/><rect x="378" y="0" width="22" height="100" fill="#F2EFE8"/><rect x="414" y="0" width="22" height="100" fill="#F2EFE8"/><circle cx="389" cy="-30" r="13" fill="#C6F432"/><circle cx="425" cy="-30" r="13" fill="#C6F432"/></svg></div>
   </footer>
 
   <script>
@@ -354,7 +360,7 @@
       ];
 
       const COLUMNS = [
-        'created_at', 'athlete_name', 'branch', 'category', 'school_name', 'school_league',
+        'created_at', 'athlete_name', 'branch', 'category', 'school_name', 'school_league', 'school_league_other',
         'school_practice_days', 'school_weekday_games', 'school_weekend_tournaments', 'school_intensity',
         'club_name', 'competition_level', 'club_practice_days_sep_oct', 'same_day_overlap_frequency', 'club_intensity',
         'can_handle_load', 'wants_club_break', 'injury_risk_perception',
@@ -366,12 +372,15 @@
         ['01', 'Perfil del Atleta', [
           { col: 'branch', title: 'Rama', opts: [['Femenino', 'Femenino'], ['Masculino', 'Masculino']] },
           { col: 'category', title: 'Categoría de edad', opts: [['8U-12U', '8U-12U'], ['13U-14U', '13U-14U'], ['15U-16U', '15U-16U'], ['17U-18U', '17U-18U']] },
-          { col: 'school_league', title: 'Liga escolar', opts: [['PRHSAA', 'PRHSAA'], ['LACC', 'LACC'], ['Otra', 'Otra']] }
+          { col: 'school_league', title: 'Liga escolar', wrap: true, opts: [
+            ['AAECA', 'AAECA'], ['COPSAA', 'COPSAA'], ['DEPR Públicas', 'DEPR Públicas'], ['LACC', 'LACC'], ['LAEC', 'LAEC'],
+            ['LEPO', 'LEPO'], ['LIDE', 'LIDE'], ['LIPRE', 'LIPRE'], ['LIVPR', 'LIVPR'], ['PRHSAA', 'PRHSAA'],
+            ['Otra', 'Otra liga'], ['No juego en liga escolar', 'No juego en liga escolar'], ['No tengo juegos', 'No tengo juegos']] }
         ]],
         ['02', 'Calendario Escolar', [
-          { col: 'school_practice_days', title: 'Prácticas escolares por semana', opts: [['1-2 días', '1-2 días'], ['3-4 días', '3-4 días'], ['5+ días', '5+ días']] },
-          { col: 'school_weekday_games', title: 'Partidos escolares Lun - Jue', opts: [['Ninguno', '0'], ['1 partido', '1'], ['2 partidos', '2'], ['3+ partidos', '3+']] },
-          { col: 'school_weekend_tournaments', title: 'Fines de semana con torneos, copas o invitacionales', opts: [['1 al mes', '1 al mes'], ['2 al mes', '2 al mes'], ['3 al mes', '3 al mes'], ['Todos', 'Todos']] },
+          { col: 'school_practice_days', title: 'Prácticas escolares por semana', opts: [['0 días', '0 días'], ['1-2 días', '1-2 días'], ['3-4 días', '3-4 días'], ['5+ días', '5+ días']] },
+          { col: 'school_weekday_games', title: 'Partidos escolares por semana, lun - vie (sin torneos)', opts: [['Ninguno', '0'], ['1 partido', '1'], ['2 partidos', '2'], ['3+ partidos', '3+']] },
+          { col: 'school_weekend_tournaments', title: 'Semanas al mes con torneos, copas o invitacionales (jue - sáb)', opts: [['Ninguna', 'Ninguna'], ['1 al mes', '1 al mes'], ['2 al mes', '2 al mes'], ['3 al mes', '3 al mes'], ['Todos', 'Todas']] },
           { col: 'school_intensity', title: 'Intensidad en la escuela', opts: [['Alta', 'Alta'], ['Moderada', 'Moderada'], ['Baja', 'Baja']] }
         ]],
         ['03', 'Calendario de Club', [
@@ -394,6 +403,11 @@
       ];
       const OVERLAP = SECTIONS[2][2][2].opts;
       const MODEL_LABEL = { modelo_noviembre: 'Noviembre', modelo_tradicional: 'Tradicional' };
+      function leagueLabel(r) {
+        if (!r.school_league) return '';
+        if (r.school_league !== 'Otra') return r.school_league;
+        return r.school_league_other ? 'Otra liga: ' + r.school_league_other : 'Otra liga';
+      }
 
       const $ = function (id) { return document.getElementById(id); };
       const views = ['bootView', 'loginView', 'deniedView', 'dashView'];
@@ -741,12 +755,39 @@
             q.opts.forEach(function (o, i) {
               const n = counts[o[0]] || 0;
               const tone = q.warnFirst && i === 0 ? 'err' : (n === max && n > 0 ? '' : 'alt');
-              block.appendChild(barRow(o[1], n, answered.length, max, { top: n === max && n > 0, tone: tone }));
+              block.appendChild(barRow(o[1], n, answered.length, max, { top: n === max && n > 0, tone: tone, wrap: q.wrap }));
             });
             card.appendChild(block);
+            if (q.col === 'school_league') {
+              const others = answered.filter(function (r) { return r.school_league === 'Otra'; });
+              if (others.length) card.appendChild(otherLeaguesBlock(others));
+            }
           });
           host.appendChild(card);
         });
+      }
+
+      /* Ligas escritas en "Otra liga", agrupadas sin importar mayúsculas */
+      function otherLeaguesBlock(others) {
+        const block = el('div', 'qblock');
+        const qh = el('div', 'sig-head');
+        qh.appendChild(el('span', 'qtitle', 'Otra liga: cuál escribieron'));
+        qh.appendChild(el('span', 'qmeta', 'n=' + others.length));
+        block.appendChild(qh);
+        const groups = {};
+        others.forEach(function (r) {
+          const raw = r.school_league_other ? String(r.school_league_other).trim() : '';
+          const key = raw ? raw.toLocaleUpperCase('es') : '';
+          if (!groups[key]) groups[key] = { label: raw || 'Sin especificar', n: 0 };
+          groups[key].n++;
+        });
+        const list = Object.keys(groups).map(function (k) { return groups[k]; })
+          .sort(function (a, b) { return b.n - a.n || a.label.localeCompare(b.label, 'es'); });
+        const max = Math.max.apply(null, list.map(function (g) { return g.n; }).concat([1]));
+        list.forEach(function (g) {
+          block.appendChild(barRow(g.label, g.n, others.length, max, { top: g.n === max, tone: g.n === max ? '' : 'alt', wrap: true }));
+        });
+        return block;
       }
 
       /* ---------- Comentarios ---------- */
@@ -765,7 +806,7 @@
           meta.appendChild(el('strong', '', r.athlete_name || 'Anónimo'));
           if (r.category) meta.appendChild(el('span', '', r.category));
           if (r.club_name) meta.appendChild(el('span', '', r.club_name));
-          if (r.school_league) meta.appendChild(el('span', '', r.school_league));
+          if (r.school_league) meta.appendChild(el('span', '', leagueLabel(r)));
           meta.appendChild(el('span', 'tag' + (r.calendar_preference === 'modelo_noviembre' ? ' acc' : ''), MODEL_LABEL[r.calendar_preference] || ''));
           li.appendChild(meta);
           li.appendChild(el('p', 'c-text', r.comments));

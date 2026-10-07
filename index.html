@@ -325,10 +325,18 @@
     @keyframes streak { 0% { opacity: 0; transform: rotate(var(--a)) translateY(30px) scaleY(.2); } 40% { opacity: 1; } 100% { opacity: 0; transform: rotate(var(--a)) translateY(86px) scaleY(1); } }
     #thanksPanel .t-body { max-width: 300px; }
 
-    footer { position: relative; z-index: 1; max-width: 520px; width: 100%; margin: 0 auto; padding: 20px 20px calc(24px + var(--safe-b)); display: flex; align-items: center; justify-content: space-between; font: 500 11px/14px var(--mono); color: var(--tx3); letter-spacing: .04em; }
+    footer { position: relative; z-index: 1; max-width: 520px; width: 100%; margin: 0 auto; padding: 20px 20px calc(24px + var(--safe-b)); display: grid; gap: 22px; font: 500 11px/14px var(--mono); color: var(--tx3); letter-spacing: .04em; }
+    .foot-row { display: flex; align-items: center; justify-content: space-between; }
     footer a { color: var(--tx3); padding: 14px 0 14px 14px; margin: -14px 0; }
     footer a:hover { color: var(--tx2); }
-    body.in-form footer { display: none; }
+    body.in-form footer .foot-row { display: none; }
+    .credit { display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .credit-mark { width: 80px; height: auto; display: block; flex: none; }
+
+    /* Liga escolar */
+    #grp-school_league > :nth-child(11) { margin-top: 10px; }
+    .q-sub { margin-top: 16px; }
+    .q-sub label { display: block; margin-bottom: 10px; }
 
     @media (min-width: 400px) { .t-display { font-size: 38px; line-height: 42px; } }
     @media (min-width: 720px) {
@@ -432,7 +440,11 @@
 
           <fieldset class="q" data-q="school_league">
             <legend class="q-label t-q">Liga escolar en la que juegas *</legend>
-            <div class="grid cols-3" id="grp-school_league"></div>
+            <div class="grid cols-2" id="grp-school_league"></div>
+            <div class="q-sub" id="leagueOtherWrap" hidden>
+              <label for="schoolLeagueOther" class="q-label t-q">¿Cuál liga? <span class="opt-tag">(Opcional)</span></label>
+              <input type="text" id="schoolLeagueOther" maxlength="60" placeholder="Nombre de la liga" class="field" autocomplete="off" enterkeyhint="next" />
+            </div>
             <p class="q-err">Selecciona tu liga.</p>
           </fieldset>
         </section>
@@ -451,14 +463,14 @@
           </fieldset>
 
           <fieldset class="q" data-q="school_games">
-            <legend class="q-label t-q">Partidos escolares entre semana (Lun - Jue) *</legend>
+            <legend class="q-label t-q">Partidos escolares a la semana, de lunes a viernes, sin contar torneos *</legend>
             <div class="grid cols-4" id="grp-school_games"></div>
             <p class="q-err">Selecciona una opción.</p>
           </fieldset>
 
           <fieldset class="q" data-q="school_tournaments">
-            <legend class="q-label t-q">Fines de semana al mes con torneos, copas o invitacionales escolares *</legend>
-            <div class="grid cols-4" id="grp-school_tournaments"></div>
+            <legend class="q-label t-q">Semanas al mes con torneos, copas o invitacionales (jue - sáb) *</legend>
+            <div class="grid cols-3" id="grp-school_tournaments"></div>
             <p class="q-err">Selecciona una opción.</p>
           </fieldset>
 
@@ -555,7 +567,7 @@
           </fieldset>
 
           <fieldset class="q" data-q="monday_after">
-            <legend class="q-label t-q">Después de un torneo de fin de semana, el lunes normalmente tienes *</legend>
+            <legend class="q-label t-q">Después de un torneo, el lunes normalmente tienes *</legend>
             <div class="grid cols-3" id="grp-monday_after"></div>
             <p class="q-err">Selecciona una opción.</p>
           </fieldset>
@@ -703,8 +715,11 @@
   </div>
 
   <footer>
-    <span>MOVE · Estudio de calendarización</span>
-    <a href="resultados.html">Resultados</a>
+    <div class="foot-row">
+      <span>MOVE · Estudio de calendarización</span>
+      <a href="resultados.html">Resultados</a>
+    </div>
+    <div class="credit"><span>Desarrollado por</span><svg class="credit-mark" viewBox="0 -43 436 143" role="img" aria-label="voleii" xmlns="http://www.w3.org/2000/svg"><polygon points="0,0 24,0 48,68 72,0 96,0 60,100 36,100" fill="#F2EFE8"/><circle cx="160" cy="50" r="39" fill="none" stroke="#F2EFE8" stroke-width="22"/><rect x="224" y="-40" width="22" height="140" fill="#F2EFE8"/><path d="M349 50 A39 39 0 1 0 337.6 77.6" fill="none" stroke="#F2EFE8" stroke-width="22"/><rect x="262" y="41" width="98" height="18" fill="#F2EFE8"/><rect x="378" y="0" width="22" height="100" fill="#F2EFE8"/><rect x="414" y="0" width="22" height="100" fill="#F2EFE8"/><circle cx="389" cy="-30" r="13" fill="#C6F432"/><circle cx="425" cy="-30" r="13" fill="#C6F432"/></svg></div>
   </footer>
 
   <script>
@@ -727,16 +742,18 @@
           ['8U-12U', '8U-12U'], ['13U-14U', '13U-14U'], ['15U-16U', '15U-16U'], ['17U-18U', '17U-18U']
         ],
         school_league: [
-          ['PRHSAA', 'PRHSAA'], ['LACC', 'LACC'], ['Otra', 'Otra']
+          ['AAECA', 'AAECA'], ['COPSAA', 'COPSAA'], ['DEPR Públicas', 'DEPR Públicas'], ['LACC', 'LACC'], ['LAEC', 'LAEC'],
+          ['LEPO', 'LEPO'], ['LIDE', 'LIDE'], ['LIPRE', 'LIPRE'], ['LIVPR', 'LIVPR'], ['PRHSAA', 'PRHSAA'],
+          ['Otra', 'Otra liga'], ['No juego en liga escolar', 'No juego en liga escolar'], ['No tengo juegos', 'No tengo juegos']
         ],
         school_practice: [
-          ['1-2 días', '1-2 días'], ['3-4 días', '3-4 días'], ['5+ días', '5+ días']
+          ['0 días', '0 días'], ['1-2 días', '1-2 días'], ['3-4 días', '3-4 días'], ['5+ días', '5+ días']
         ],
         school_games: [
           ['Ninguno', '0'], ['1 partido', '1'], ['2 partidos', '2'], ['3+ partidos', '3+']
         ],
         school_tournaments: [
-          ['1 al mes', '1 al mes'], ['2 al mes', '2 al mes'], ['3 al mes', '3 al mes'], ['Todos', 'Todos']
+          ['Ninguna', 'Ninguna'], ['1 al mes', '1 al mes'], ['2 al mes', '2 al mes'], ['3 al mes', '3 al mes'], ['Todos', 'Todas']
         ],
         division: [
           ['Desarrollo', 'Desarrollo'], ['Club', 'Club'], ['Open', 'Open']
@@ -780,7 +797,6 @@
       const MONO_GROUPS = new Set(['category']);
       const REQUIRED_RADIOS = Object.keys(OPTIONS);
       const REQUIRED_TEXT = ['schoolName', 'clubName'];
-      const REQUIRED_TOTAL = REQUIRED_RADIOS.length + REQUIRED_TEXT.length + 1;
 
       /* Presentación visual de etiquetas (no altera los values) */
       const UNITS = {
@@ -788,7 +804,7 @@
         club_days: ['días', 'día', 'días', 'días', 'días'],
         overlap_freq: ['veces', 'vez', 'veces', 'veces']
       };
-      const SPAN2 = { club_days_4: true };
+      const SPAN2 = { club_days_4: true, school_tournaments_4: true, school_league_10: true, school_league_11: true, school_league_12: true };
       const INTENSITY_DESC = [
         'Se requiere esfuerzo máximo por el nivel competitivo de mi equipo',
         'Requiere esfuerzo pero el nivel competitivo de mi equipo es promedio',
@@ -917,17 +933,57 @@
       const progressBar = document.getElementById('progressBar');
       const progressText = document.getElementById('progressText');
 
+      /* Liga escolar: preguntas condicionales */
+      const LEAGUE_OTHER = 'Otra';
+      const NO_GAMES = 'No tengo juegos';
+      const PRACTICE_ZERO = '0 días';
+      const SKIP_VALUE = { school_games: 'Ninguno', school_tournaments: 'Ninguna', school_intensity: null };
+      const SKIP_LABEL = { school_games: '0 partidos', school_tournaments: 'Ninguna', school_intensity: 'No aplica' };
+      const leagueOtherWrap = document.getElementById('leagueOtherWrap');
+      const leagueOtherInput = document.getElementById('schoolLeagueOther');
+      const practiceGrid = document.getElementById('grp-school_practice');
+      const practiceZero = document.getElementById('school_practice_0');
+
+      function skippedKeys() {
+        const out = [];
+        if (pickRadio('school_league') === NO_GAMES) {
+          out.push('school_games', 'school_tournaments');
+          if (pickRadio('school_practice') === PRACTICE_ZERO) out.push('school_intensity');
+        }
+        return out;
+      }
+      function isSkipped(key) { return skippedKeys().indexOf(key) !== -1; }
+      function activeRadios() { return REQUIRED_RADIOS.filter(function (n) { return !isSkipped(n); }); }
+      function requiredTotal() { return activeRadios().length + REQUIRED_TEXT.length + 1; }
+
+      function applyConditions() {
+        const league = pickRadio('school_league');
+        const noGames = league === NO_GAMES;
+        leagueOtherWrap.hidden = league !== LEAGUE_OTHER;
+        if (!noGames && practiceZero.checked) practiceZero.checked = false;
+        practiceZero.parentNode.hidden = !noGames;
+        practiceGrid.classList.toggle('cols-4', noGames);
+        practiceGrid.classList.toggle('cols-3', !noGames);
+        Object.keys(SKIP_VALUE).forEach(function (k) {
+          const q = form.querySelector('[data-q="' + k + '"]');
+          const skip = isSkipped(k);
+          q.hidden = skip;
+          if (skip) q.classList.remove('invalid');
+        });
+      }
+
       function answeredCount() {
         let n = 0;
-        REQUIRED_RADIOS.forEach(function (name) { if (pickRadio(name)) n++; });
+        activeRadios().forEach(function (name) { if (pickRadio(name)) n++; });
         REQUIRED_TEXT.forEach(function (id) { if (sanitizeText(document.getElementById(id).value, 200, false)) n++; });
         if (pickSignals().length) n++;
         return n;
       }
       function updateProgress() {
         const n = answeredCount();
-        progressBar.style.width = Math.round((n / REQUIRED_TOTAL) * 100) + '%';
-        progressText.textContent = n + ' de ' + REQUIRED_TOTAL + ' preguntas requeridas';
+        const total = requiredTotal();
+        progressBar.style.width = Math.round((n / total) * 100) + '%';
+        progressText.textContent = n + ' de ' + total + ' preguntas requeridas';
         updateSegments();
       }
       function clearInvalid(key) {
@@ -937,6 +993,7 @@
 
       form.addEventListener('change', function (e) {
         if (e.target && e.target.name) clearInvalid(e.target.name);
+        applyConditions();
         updateProgress();
       });
       form.addEventListener('input', function (e) {
@@ -949,7 +1006,7 @@
 
       function validate() {
         const missing = [];
-        REQUIRED_RADIOS.forEach(function (name) { if (!pickRadio(name)) missing.push(name); });
+        activeRadios().forEach(function (name) { if (!pickRadio(name)) missing.push(name); });
         REQUIRED_TEXT.forEach(function (id) {
           if (!sanitizeText(document.getElementById(id).value, 200, false)) missing.push(id);
         });
@@ -1036,23 +1093,25 @@
           return;
         }
 
+        const league = pickRadio('school_league');
         const payload = {
           athlete_name: sanitizeText(document.getElementById('athleteName').value, 80, false) || null,
           branch: pickRadio('branch'),
           category: pickRadio('category'),
           school_name: sanitizeText(document.getElementById('schoolName').value, 120, false),
           school_practice_days: pickRadio('school_practice'),
-          school_weekday_games: pickRadio('school_games'),
-          school_weekend_tournaments: pickRadio('school_tournaments'),
+          school_weekday_games: isSkipped('school_games') ? SKIP_VALUE.school_games : pickRadio('school_games'),
+          school_weekend_tournaments: isSkipped('school_tournaments') ? SKIP_VALUE.school_tournaments : pickRadio('school_tournaments'),
           club_name: sanitizeText(document.getElementById('clubName').value, 120, false),
           competition_level: pickRadio('division'),
           club_practice_days_sep_oct: pickRadio('club_days'),
           same_day_overlap_frequency: pickRadio('overlap_freq'),
-          school_intensity: pickRadio('school_intensity'),
+          school_intensity: isSkipped('school_intensity') ? SKIP_VALUE.school_intensity : pickRadio('school_intensity'),
           club_intensity: pickRadio('club_intensity'),
           can_handle_load: pickRadio('can_handle_load'),
           wants_club_break: pickRadio('wants_club_break'),
-          school_league: pickRadio('school_league'),
+          school_league: league,
+          school_league_other: league === LEAGUE_OTHER ? (sanitizeText(leagueOtherInput.value, 60, false) || null) : null,
           injury_risk_perception: pickRadio('injury_risk'),
           rest_days: pickRadio('rest_days'),
           gym_days: pickRadio('gym_days'),
@@ -1078,6 +1137,7 @@
           if (res.error) throw res.error;
           writeLastFp(fp);
           form.reset();
+          applyConditions();
           document.getElementById('commentsCount').textContent = '0';
           updateProgress();
           showThanks();
@@ -1106,7 +1166,8 @@
 
       function stepKeys(n) {
         const s = steps[n - 1];
-        return s ? Array.prototype.slice.call(s.querySelectorAll('[data-q]')).map(function (q) { return q.dataset.q; }) : [];
+        return s ? Array.prototype.slice.call(s.querySelectorAll('[data-q]')).map(function (q) { return q.dataset.q; })
+          .filter(function (k) { return !isSkipped(k); }) : [];
       }
       function isAnswered(key) {
         if (key === 'signals') return pickSignals().length > 0;
@@ -1207,7 +1268,7 @@
       }
       const REVIEW = [
         [1, 'Perfil del Atleta', [['Nombre', 'athleteName', true], ['Rama', 'branch'], ['Categoría', 'category'], ['Escuela', 'schoolName'], ['Liga', 'school_league']]],
-        [2, 'Calendario Escolar', [['Prácticas/semana', 'school_practice'], ['Partidos Lun - Jue', 'school_games'], ['Fines de semana con torneos', 'school_tournaments'], ['Intensidad', 'school_intensity']]],
+        [2, 'Calendario Escolar', [['Prácticas/semana', 'school_practice'], ['Partidos Lun - Vie', 'school_games'], ['Semanas con torneos', 'school_tournaments'], ['Intensidad', 'school_intensity']]],
         [3, 'Calendario de Club', [['Club', 'clubName'], ['División', 'division'], ['Prácticas/semana', 'club_days'], ['Doble práctica', 'overlap_freq'], ['Intensidad', 'club_intensity']]],
         [4, 'Percepción de Carga', [['Puedo con la carga sep - oct', 'can_handle_load'], ['Receso de club sep - oct', 'wants_club_break'], ['Riesgo de lesión o desgaste', 'injury_risk']]],
         [5, 'Recuperación y Bienestar', [['Días de descanso', 'rest_days'], ['Días de gimnasio', 'gym_days'], ['Lunes después de torneo', 'monday_after'], ['Reporte de bienestar', 'wellness_tracking'], ['Señales', 'signals']]],
@@ -1239,13 +1300,20 @@
             const dt = document.createElement('dt'); dt.textContent = row[0];
             const dd = document.createElement('dd');
             let v;
-            if (row[1] === 'signals') {
+            let muted = false;
+            if (isSkipped(row[1])) { v = SKIP_LABEL[row[1]]; muted = true; }
+            else if (row[1] === 'school_league') {
+              v = labelFor('school_league', pickRadio('school_league'));
+              const other = sanitizeText(leagueOtherInput.value, 60, false);
+              if (v && pickRadio('school_league') === LEAGUE_OTHER && other) v += ': ' + other;
+            }
+            else if (row[1] === 'signals') {
               const sg = pickSignals();
               v = !sg.length ? null : (sg[0] === SIG_NONE ? 'Ninguna' : sg.length + (sg.length === 1 ? ' marcada' : ' marcadas'));
             }
             else if (OPTIONS[row[1]]) v = labelFor(row[1], pickRadio(row[1]));
             else v = sanitizeText(document.getElementById(row[1]).value, 120, false) || null;
-            if (v) dd.textContent = v;
+            if (v) { dd.textContent = v; if (muted) { dd.style.color = 'var(--tx3)'; dd.style.fontWeight = '500'; } }
             else if (row[2]) { dd.textContent = 'Sin nombre'; dd.style.color = 'var(--tx3)'; dd.style.fontWeight = '500'; }
             else { dd.textContent = 'Pendiente'; dd.className = 'missing'; }
             r.appendChild(dt); r.appendChild(dd); dl.appendChild(r);
@@ -1258,7 +1326,7 @@
 
       /* Gráfica 3D de carga semanal */
       const LOAD = {
-        school_practice: { '1-2 días': [1.5, '1-2'], '3-4 días': [3.5, '3-4'], '5+ días': [5, '5+'] },
+        school_practice: { '0 días': [0, '0'], '1-2 días': [1.5, '1-2'], '3-4 días': [3.5, '3-4'], '5+ días': [5, '5+'] },
         club_days: { '0 días': [0, '0'], '1 día': [1, '1'], '2 días': [2, '2'], '3 días': [3, '3'], 'Más de 3 días': [4, '+3'] },
         overlap_freq: { '0 veces/sem': [0, '0'], '1 vez/sem': [1, '1'], '2 veces/sem': [2, '2'], '3+ veces/sem': [3, '3+'] }
       };
@@ -1318,6 +1386,7 @@
         });
       }
 
+      applyConditions();
       updateProgress();
       goTo(0, 1, true);
     });
